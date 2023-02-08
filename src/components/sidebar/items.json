@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Events",
+        "path": "/"
+    },
+    {
+        "name": "Arquitectura ",
+        "path": "/arquitectura"
+    },
+    {
+        "name": "Extinción de incendios",
+        "path": "/incendios"
+    },
+    {
+        "name": "Mantencion",
+        "path": "/mantencion"
+    },
+    {
+        "name": "Iluminación sala de ventas",
+        "path": "/ilum-ventas"
+    },
+    {
+        "name": "Cubierta",
+        "path": "/cubierta"
+    },
+    {
+        "name": "Climatización",
+        "path": "/climatizacion"
+    },
+    {
+        "name": "Frio alimentario",
+        "path": "/frio-alimentario"
+    },
+    {
+        "name": "Cortina metálica",
+        "path": "/cortina"
+    },
+    {
+        "name": "Sistema eléctrico",
+        "path": "/sistema-electrico"
+    },
+    {
+        "name": "Generación eléctrica",
+        "path": "/generacion-electrica"
+    },
+    {
+        "name": "Gases refrigerantes",
+        "path": "/gases"
+    }
+]
