@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { openLocalEvent } from '../state/slices/viewsSlice'
 
 const SendAlert = () => {
@@ -18,6 +19,7 @@ const SendAlert = () => {
     const [count, setCount] = useState(0)
     const local = useSelector((state) => state.views.local.data[0])
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const handleChange = e => {
         setNewAlert({
@@ -40,7 +42,9 @@ const SendAlert = () => {
             detenidos: parseInt(newAlert.detenidos),
             danos: parseInt(newAlert.danos),
             estadoLocal_id: parseInt(newAlert.estadoLocal_id)
-        }))
+        })).then((data) => {
+            console.log('Devuelta:', data.payload.message)
+        })
         console.log('Nueva alerta', newAlert)
     }
 
@@ -49,10 +53,17 @@ const SendAlert = () => {
             setCount(e)
         }
     }
+
+    const handleNav = () => {
+        navigate(`/local/${local.ceco}`)
+    }
+
     return (
         <div className="flex flex-col gap-2 h-screen w-screen p-8">
             <p className='py-4'>
-                Unimarc <b>UNIMARC CURICO I #510</b>
+                {local.localType} <b>{local.naem} #{local.ceco}</b>
+                <br />
+                {local.address}, {local.city}
             </p>
 
             <form onSubmit={handleSubmit}>
@@ -117,9 +128,16 @@ const SendAlert = () => {
                 <div className='mt-8 flex flex-col gap-y-4'>
                     <button
                         onSubmit={handleSubmit}
-                        className='active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-4 text-gray-400 bg-slate-700 rounded-xl font-bold text-lg hover:bg-red-900'>Enviar</button>
+                        className='active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-4 text-gray-400 bg-slate-700 rounded-xl font-bold text-lg hover:bg-red-900'>
+                        Enviar
+                    </button>
                 </div>
             </form>
+            <button
+                onClick={handleNav}
+                className='active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-4 text-gray-400 bg-slate-700 rounded-xl font-bold text-lg hover:bg-red-900'>
+                Ir a eventos del local
+            </button>
         </div>
     )
 }

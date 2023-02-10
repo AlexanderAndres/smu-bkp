@@ -35,7 +35,7 @@ const LocalLayout = () => {
 
     if (!dataFetched) {
         Promise.all(dataFetch).then(data => {
-            console.log('-> Promis All to fech state', data)
+            //console.log('-> Promis All to fech state', data)
             setDataFetched(true)
             setLoading(false)
         })

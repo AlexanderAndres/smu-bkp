@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { GoAlert, GoTriangleRight } from "react-icons/go";
+import { HiDownload } from "react-icons/hi";
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import { IconContext } from "react-icons";
 import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import SmuLogo from '../../assets/svgs/SmuLogo'
 import './sidebar.css'
@@ -29,6 +32,15 @@ const Sidebar = () => {
 
     const handdleSelected = (item) => {
         setSelected(item)
+    }
+
+    const handleDowload = () => {
+
+    }
+    const handleSendAlert = (e) => {
+        e.preventDefault();
+        console.log('Handle send alert')
+        navigate('/sendAlert')
     }
 
     const hanndleLoggout = () => {
@@ -63,6 +75,18 @@ const Sidebar = () => {
                                         {(item.name === 'Events') ? <GoAlert className='w-4 h-4' /> : <GoTriangleRight className='w-4 h-4' />}
                                         {(alert && item.name === 'Events') ? <GoAlert className='absolute top-4 left-3 w-4 h-4 text-red-500 animate-ping' /> : null}
                                         <span className='pl-2'>{item.name}</span>
+                                        {(item.name === 'Mantencion') ? (
+                                            <IconContext.Provider value={{ className: 'w-6 h-6 p-1 rounded-full ml-24 border border-gray-300 hover:bg-gray-300 transition al ease-in-out hover:text-gray-900' }}>
+                                                <HiDownload onClick={handleDowload} />
+                                            </IconContext.Provider>
+                                        ) : ''}
+                                        {(item.name === 'Events') ? (
+                                            <div className='ml-24' onClick={handleSendAlert}>
+                                                <IconContext.Provider value={{ className: 'w-7 h-7 p-1 rounded-full hover:bg-gray-300 transition al ease-in-out hover:text-gray-900' }}>
+                                                    <AiOutlinePlusCircle />
+                                                </IconContext.Provider>
+                                            </div>
+                                        ) : ''}
                                     </NavLink>
                                 )
                             })

@@ -80,7 +80,7 @@ export default viewsSlice.reducer
 
 export const fetchLocal = createAsyncThunk('local/getLocal', async (local) => {
     const response = await axios.get(`https://smu-api.herokuapp.com/api/local/${local}`).then((data) => {
-        //console.log('From fetch GetLocal', data.data)
+        console.log('From fetch GetLocal', data.data)
         return data.data
     }).catch((err) => {
         console.log(err)
@@ -89,7 +89,7 @@ export const fetchLocal = createAsyncThunk('local/getLocal', async (local) => {
 })
 export const fetchLocalEvents = createAsyncThunk('local/getLocalEvents', async (local) => {
     const response = await axios.get(`https://smu-api.herokuapp.com/api/alert/${local}`).then((data) => {
-        console.log('From fetch GetLocal', data.data)
+        console.log('From fetchLocalEvents', data.data)
         return data.data
     }).catch((err) => {
         console.log(err)
@@ -125,8 +125,8 @@ export const openLocalEvent = createAsyncThunk('local/openEvent', async (data) =
     formData.append('detenidos', detenidos);
     formData.append('danos', danos);
 
-    console.log('Form Data',formData)
-    
+    console.log('Form Data', formData)
+
     const response = await axios.post(`https://smu-api.herokuapp.com/api/alert`, formData, {
         Headers: { "Content-Type": "multipart/form-data" }
     }).then((data) => {

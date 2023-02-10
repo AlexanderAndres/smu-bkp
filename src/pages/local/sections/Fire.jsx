@@ -5,19 +5,6 @@ const Fire = () => {
     const [showModal, setShowModal] = useState(false)
     const [modal, setModal] = useState({})
     const data = useSelector((state) => state.views.incendios.data[0])
-    //console.log('Fire data', data)
-
-    const ja = {
-        "id": 1,
-        "tiempoAutonomia": "40 minutos contantes de agua",
-        "capacidadEstanque": "10.000 m3",
-        "cantidadTipoExtintores": "30 pqs, 20 Co2, 2 tipo k y 1 de agua",
-        "gabinetes": 8,
-        "rociadores": "http://res.cloudinary.com/dvkskgsbk/image/upload/v1675627394/smu/nwkdkebtdnqmaxmf9zmq.jpg",
-        "estanque": "http://res.cloudinary.com/dvkskgsbk/image/upload/v1675627395/smu/ar9c3tbajqmnmgo0oosn.jpg",
-        "planoExtintores": "http://res.cloudinary.com/dvkskgsbk/image/upload/v1675627397/smu/qrvvbywtw4barvi6zusz.png",
-        "ceco": 510
-    }
 
     const handleModal = (img) => {
         //console.log('Image from modal:', img)
