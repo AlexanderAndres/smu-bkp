@@ -6,7 +6,7 @@ import { setAuthLogout } from '../../state/slices/authSlice'
 import { setLocalsLoggout } from '../../state/slices/localsSlice'
 import { setViewsLogout } from '../../state/slices/viewsSlice'
 
-const FilterSideBar = () => {
+const FilterSideBar = (props) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [showFilters, setShowFilters] = useState(false)
@@ -46,7 +46,7 @@ const FilterSideBar = () => {
                 }
             }}
 
-            className={`absolute ${userRole >= 4 ? 'h-auto' : 'h-full'} transition-all duration-700 ease-in-out top-0 right-0 w-64 bg-gray-900 text-gray-100 
+            className={`absolute hidden xl:block ${userRole >= 4 ? 'h-auto' : 'h-full'} transition-all duration-700 ease-in-out top-0 right-0 w-64 bg-gray-900 text-gray-100 
             flex flex-col gap-4 z-50`}>
             <div className="p-4 flex flex-row uppercase font-semibold cursor-pointer text-md">
                 <SmuLogo className='absolute' />

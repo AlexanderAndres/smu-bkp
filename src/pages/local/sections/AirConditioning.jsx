@@ -5,7 +5,6 @@ const AirConditioning = () => {
     return (
         <>
             <div>AirConditioning</div>
-            <MarkerMay10 />
         </>
     )
 }

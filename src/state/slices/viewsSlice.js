@@ -54,6 +54,9 @@ export const viewsSlice = createSlice({
             .addCase(fetchLocalMantenaince.fulfilled, (state, action) => {
                 state.mantencion = action.payload
             })
+            .addCase(downloadMantenaince.fulfilled, (state) => {
+                console.log('Pasó por download')
+            })
             .addCase(fetchLocalIluminacion.fulfilled, (state, action) => {
                 state.iluminacion = action.payload
             })
@@ -109,9 +112,8 @@ export const closeLocalEvents = createAsyncThunk('local/closeEvent', async (data
 })
 export const openLocalEvent = createAsyncThunk('local/openEvent', async (data) => {
     const { ceco, type_id, estadoLocal_id, estado, descripcion, personalLesionado, intentoRobo, robo, detenidos, danos } = data
-
-    console.log('Contenido DATA', data)
-
+    //console.log('Contenido DATA', data)
+    //console.log('Form Data', formData)
     const formData = new FormData();
 
     formData.append('ceco', ceco);
@@ -124,8 +126,6 @@ export const openLocalEvent = createAsyncThunk('local/openEvent', async (data) =
     formData.append('robo', robo);
     formData.append('detenidos', detenidos);
     formData.append('danos', danos);
-
-    console.log('Form Data', formData)
 
     const response = await axios.post(`https://smu-api.herokuapp.com/api/alert`, formData, {
         Headers: { "Content-Type": "multipart/form-data" }
@@ -160,6 +160,16 @@ export const fetchLocalFire = createAsyncThunk('local/getFire', async (local) =>
 export const fetchLocalMantenaince = createAsyncThunk('local/getMantenaince', async (local) => {
     const response = await axios.get(`https://smu-api.herokuapp.com/api/view3/${local}`).then((data) => {
         //console.log('From fetch arc', data.data)
+        return data.data
+    }).catch((err) => {
+        console.log(err)
+    })
+    return response
+})
+
+export const downloadMantenaince = createAsyncThunk('local/downloadMantenaince', async (local) => {
+    const response = await axios.get(`https://smu-api.herokuapp.com/api/view3/download/${local}`).then((data) => {
+        console.log('From download', data.data)
         return data.data
     }).catch((err) => {
         console.log(err)

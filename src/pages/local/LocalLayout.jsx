@@ -11,6 +11,7 @@ import {
     fetchLocalFire,
     fetchLocalMantenaince,
     fetchLocalIluminacion,
+    fetchLocalCubierta,
     //fetchLocalCubierta
 } from '../../state/slices/viewsSlice';
 import Identificator from '../../components/views/Identificator';
@@ -30,6 +31,7 @@ const LocalLayout = () => {
         dispatch(fetchLocalFire(ceco)),
         dispatch(fetchLocalMantenaince(ceco)),
         dispatch(fetchLocalIluminacion(ceco)),
+        dispatch(fetchLocalCubierta(ceco)),
         //dispatch(fetchLocalCubierta(ceco)),
     ]
 

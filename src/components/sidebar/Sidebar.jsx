@@ -11,7 +11,10 @@ import MenuItems from './items.json'
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuthLogout } from '../../state/slices/authSlice';
 import { setLocalsLoggout } from '../../state/slices/localsSlice';
-import { setViewsLogout } from '../../state/slices/viewsSlice';
+import { downloadMantenaince, setViewsLogout } from '../../state/slices/viewsSlice';
+import FileSaver from 'file-saver';
+import axios from 'axios';
+//import XLSX from 'sheetjs-style'
 
 const Sidebar = () => {
     const [selected, setSelected] = useState(0)
@@ -34,8 +37,20 @@ const Sidebar = () => {
         setSelected(item)
     }
 
-    const handleDowload = () => {
+    const handleDowload = (e) => {
+        e.preventDefault();
 
+        axios.get(`https://smu-api.herokuapp.com/api/view3/download/${ceco}`, {
+            method: 'GET',
+            responseType: 'blob', // important
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `sabana-mantencíon-local${ceco}.xlsx`);
+            document.body.appendChild(link);
+            link.click();
+        });
     }
     const handleSendAlert = (e) => {
         e.preventDefault();
@@ -76,7 +91,7 @@ const Sidebar = () => {
                                         {(alert && item.name === 'Events') ? <GoAlert className='absolute top-4 left-3 w-4 h-4 text-red-500 animate-ping' /> : null}
                                         <span className='pl-2'>{item.name}</span>
                                         {(item.name === 'Mantencion') ? (
-                                            <IconContext.Provider value={{ className: 'w-6 h-6 p-1 rounded-full ml-24 border border-gray-300 hover:bg-gray-300 transition al ease-in-out hover:text-gray-900' }}>
+                                            <IconContext.Provider onClick={handleDowload} value={{ className: 'w-6 h-6 p-1 rounded-full ml-24 border border-gray-300 hover:bg-gray-300 transition al ease-in-out hover:text-gray-900' }}>
                                                 <HiDownload onClick={handleDowload} />
                                             </IconContext.Provider>
                                         ) : ''}
