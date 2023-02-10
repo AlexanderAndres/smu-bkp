@@ -5,9 +5,10 @@ import SmuLogo from '../../assets/svgs/SmuLogo'
 import './sidebar.css'
 
 import MenuItems from './items.json'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAuthLogout } from '../../state/slices/authSlice';
-import { setLocalsLoggout } from '../../state/slices/localSlice';
+import { setLocalsLoggout } from '../../state/slices/localsSlice';
+import { setViewsLogout } from '../../state/slices/viewsSlice';
 
 const Sidebar = () => {
     const [selected, setSelected] = useState(0)
@@ -15,9 +16,17 @@ const Sidebar = () => {
     const { ceco } = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    
-    const [alert, setAlert] = useState(true)
-    
+
+    const [alert, setAlert] = useState(false)
+    const data = useSelector((state) => state.views.events.data)
+
+    useEffect(() => {
+        //console.log('Alert state sidebar', data)
+        if (data) {
+            data.some(e => e.estado === 1) ? setAlert(true) : null
+        }
+    }, [])
+
     const handdleSelected = (item) => {
         setSelected(item)
     }
@@ -25,6 +34,7 @@ const Sidebar = () => {
     const hanndleLoggout = () => {
         dispatch(setAuthLogout())
         dispatch(setLocalsLoggout())
+        dispatch(setViewsLogout())
         navigate('/')
     }
     //<span className="absolute top-0 left-0 w-2 h-2 mt-3 ml-3 bg-red-500 rounded-full"></span>
@@ -46,7 +56,9 @@ const Sidebar = () => {
                         {
                             MenuItems.map((item, index) => {
                                 return (
-                                    <NavLink key={index} onClick={() => handdleSelected(index)} className={`relative flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-700 hover:text-gray-300 ${selected === index ? 'text-gray-200 bg-gray-700' : ''}`}
+                                    <NavLink
+                                        onMouseEnter={() => setAlert(false)}
+                                        key={index} onClick={() => handdleSelected(index)} className={`relative flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-gray-700 hover:text-gray-300 ${selected === index ? 'text-gray-200 bg-gray-700' : ''}`}
                                         to={`/local/${ceco + item.path}`}>
                                         {(item.name === 'Events') ? <GoAlert className='w-4 h-4' /> : <GoTriangleRight className='w-4 h-4' />}
                                         {(alert && item.name === 'Events') ? <GoAlert className='absolute top-4 left-3 w-4 h-4 text-red-500 animate-ping' /> : null}

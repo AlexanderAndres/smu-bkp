@@ -11,7 +11,7 @@ import MarkerAlvi from '../../assets/svgs/Markers/MarkerAlvi';
 import MarkerSuper10 from '../../assets/svgs/Markers/MarkerSuper10';
 import MarkerMay10 from '../../assets/svgs/Markers/MarkerMay10';
 import { useNavigate } from 'react-router-dom';
-import { fetchMarkers, setGeoJson } from '../../state/slices/localSlice';
+import { fetchMarkers, setGeoJson } from '../../state/slices/localsSlice';
 import FilterSideBar from '../../components/filterSideBar/FilterSideBar';
 import Loader from '../../components/loader/Loader';
 
@@ -171,8 +171,11 @@ const Map = () => {
         })
       })
 
+      map.on('idle', () => {
+        setLoading(false)
+      })
+
       // Clean up on unmount
-      setLoading(false)
       return () => map.remove();
     }
   }, [markers])

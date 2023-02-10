@@ -15,8 +15,7 @@ import SteelScreen from './pages/local/sections/SteelScreen'
 import ElectricSys from './pages/local/sections/ElectricSys'
 import ElectricGen from './pages/local/sections/ElectricGen'
 import Gases from './pages/local/sections/Gases'
-
-import Loader from './components/loader/Loader'
+import SendAlert from './pages/SendAlert'
 
 function App() {
 
@@ -26,6 +25,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/app' element={<Home />} />
+          <Route path='/sendAlert' element={<SendAlert />} />
           <Route path='/local/:ceco/' element={<LocalLayout />} >
             <Route index element={<Events />} />
             <Route path='arquitectura' element={<Architecture />} />

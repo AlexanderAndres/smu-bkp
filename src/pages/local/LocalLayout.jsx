@@ -4,7 +4,16 @@ import Sidebar from '../../components/sidebar/Sidebar'
 import { useParams } from 'react-router-dom';
 import Loader from '../../components/loader/Loader';
 import { useDispatch } from 'react-redux';
-import { fetchLocalArc, fetchLocalFire, setArc } from '../../state/slices/localSlice';
+import {
+    fetchLocalEvents,
+    fetchLocal,
+    fetchLocalArc,
+    fetchLocalFire,
+    fetchLocalMantenaince,
+    fetchLocalIluminacion,
+    //fetchLocalCubierta
+} from '../../state/slices/viewsSlice';
+import Identificator from '../../components/views/Identificator';
 
 
 const LocalLayout = () => {
@@ -14,17 +23,23 @@ const LocalLayout = () => {
 
     const dispatch = useDispatch()
 
-    const dataFetch = [dispatch(fetchLocalArc(ceco)), dispatch(fetchLocalFire(ceco))]
+    const dataFetch = [
+        dispatch(fetchLocal(ceco)),
+        dispatch(fetchLocalEvents(ceco)),
+        dispatch(fetchLocalArc(ceco)),
+        dispatch(fetchLocalFire(ceco)),
+        dispatch(fetchLocalMantenaince(ceco)),
+        dispatch(fetchLocalIluminacion(ceco)),
+        //dispatch(fetchLocalCubierta(ceco)),
+    ]
 
-    useEffect(() => {
-        if (!dataFetched) {
-            Promise.all(dataFetch).then(data => {
-                //console.log('-> Promis All to fech state', data)
-                setDataFetched(true)
-                setLoading(false)
-            })
-        }
-    }, [])
+    if (!dataFetched) {
+        Promise.all(dataFetch).then(data => {
+            console.log('-> Promis All to fech state', data)
+            setDataFetched(true)
+            setLoading(false)
+        })
+    }
 
     return (
         <>
@@ -36,10 +51,9 @@ const LocalLayout = () => {
                     <div className='col-span-3 bg-black h-screen md:col-span-2'>
                         <Sidebar />
                     </div>
-
-
-                    <div className='col-span-9 bg-gray-900 h-screen pl-10 md:col-span-10 overflow-y-auto'>
-                        <Outlet ceco={ceco} />
+                    <div className='col-span-10 bg-gray-900 grid h-screen pl-10 overflow-y-auto'>
+                        <Identificator />
+                        <Outlet className='h-full' ceco={ceco} />
                     </div>
                 </div>
             </section>

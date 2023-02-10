@@ -35,14 +35,6 @@ export const localSlice = createSlice({
             state.fire = {}
         }
     },
-    extraReducers: (builder) => {
-        builder.addCase(fetchLocalArc.fulfilled, (state, action) => {
-            state.arquitectura = action.payload
-        })
-            .addCase(fetchLocalFire.fulfilled, (state, action) => {
-                state.fire = action.payload
-            })
-    }
 })
 
 export const { setLocals, updateLocals, setGeoJson, updateGeoJson, setArc, setLocalsLoggout } = localSlice.actions
@@ -76,25 +68,5 @@ export const fetchMarkers = createAsyncThunk('markers/rut', async (user) => {
             //console.log('Thunk json:', geoJson)
             return geoJson
         })
-    return response
-})
-
-export const fetchLocalArc = createAsyncThunk('local/getArc', async (local) => {
-    const response = await axios.get(`https://smu-api.herokuapp.com/api/view1/${local}`).then((data) => {
-        //console.log('From fetch arc', data.data)
-        return data.data
-    }).catch((err) => {
-        console.log(err)
-    })
-    return response
-})
-
-export const fetchLocalFire = createAsyncThunk('local/getFire', async (local) => {
-    const response = await axios.get(`https://smu-api.herokuapp.com/api/view2/${local}`).then((data) => {
-        //console.log('From fetch arc', data.data)
-        return data.data
-    }).catch((err) => {
-        console.log(err)
-    })
     return response
 })

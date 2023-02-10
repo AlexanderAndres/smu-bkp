@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Table = ({ data }) => {
-    console.log('The Data object', data)
+    //console.log('The Data object', data)
     return (
         <div className='bg-gray-900 min-w-full '>
             <div className="w-full p-6">

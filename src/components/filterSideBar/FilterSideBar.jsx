@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import SmuLogo from '../../assets/svgs/SmuLogo'
 import { setAuthLogout } from '../../state/slices/authSlice'
-import { setLocalsLoggout } from '../../state/slices/localSlice'
+import { setLocalsLoggout } from '../../state/slices/localsSlice'
+import { setViewsLogout } from '../../state/slices/viewsSlice'
 
 const FilterSideBar = () => {
     const navigate = useNavigate()
@@ -14,7 +15,7 @@ const FilterSideBar = () => {
 
     const user = useSelector((state) => {
         if (state.auth) {
-            console.log('State in FILTER', state.auth)
+            //console.log('State in FILTER', state.auth)
             return state.auth
         }
     })
@@ -26,18 +27,23 @@ const FilterSideBar = () => {
     const hanndleLoggout = () => {
         dispatch(setAuthLogout())
         dispatch(setLocalsLoggout())
+        dispatch(setViewsLogout())
         navigate('/')
     }
 
     return (
         <div
             onMouseOver={() => {
-                console.log('Show menu true')
-                setShowMenu(true)
+                //console.log('Show menu true')
+                if (userRole >= 4) {
+                    setShowMenu(true)
+                }
             }}
 
             onMouseLeave={() => {
-                setShowMenu(false)
+                if (userRole >= 4) {
+                    setShowMenu(false)
+                }
             }}
 
             className={`absolute ${userRole >= 4 ? 'h-auto' : 'h-full'} transition-all duration-700 ease-in-out top-0 right-0 w-64 bg-gray-900 text-gray-100 

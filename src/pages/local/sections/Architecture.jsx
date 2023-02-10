@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Identificator from '../../../components/views/Identificator'
 //import { fetchLocalArc } from '../../../services/localService'
 
 const Architecture = (props) => {
@@ -7,7 +8,7 @@ const Architecture = (props) => {
     const [showModal, setShowModal] = useState(false)
     const dispatch = useDispatch()
 
-    const req = useSelector((state) => state.locals.arquitectura)
+    const req = useSelector((state) => state.views.arquitectura)
 
     const closeModal = () => {
         setShowModal(false)
@@ -22,7 +23,6 @@ const Architecture = (props) => {
 
     return (
         <div className='w-full min-h-screen bg-gray-900 p-6 flex flex-col items-center'>
-            <h1 className='py-8 text-2xl'>Datos estructurales y diseño <b>#{req.data[0].ceco}</b></h1>
             <div className="pt-4 w-full">
                 <div className="grid grid-cols-2 grid-rows-3 gap-4">
                     <div className="bg-slate-50 text-slate-900 row-start-2 rounded-xl bg-cover bg-center p-6">
@@ -61,7 +61,7 @@ const Architecture = (props) => {
                     </div>
                 </div>
                 {showModal ? (
-                    <div className="grid place-items-center h-screen w-screen fixed overflow-x-hidden overflow-y-auto inset-0 z-50 outline-none focus:outline-none bg-gray-900">
+                    <div className="grid place-items-center h-screen w-screen absolute z-[999999] overflow-x-hidden overflow-y-auto inset-0 outline-none focus:outline-none bg-gray-900">
                         <div id="menu" className="w-[90%] h-[90%]">
                             <div className="w-96 md:w-full md:h-full dark:bg-gray-800 relative flex flex-col justify-center items-center bg-gray-900 py-16 px-4 md:px-24 xl:pt-24 xl:px-36">
                                 <div role="banner">
