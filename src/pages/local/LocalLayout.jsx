@@ -32,16 +32,19 @@ const LocalLayout = () => {
         dispatch(fetchLocalMantenaince(ceco)),
         dispatch(fetchLocalIluminacion(ceco)),
         dispatch(fetchLocalCubierta(ceco)),
-        //dispatch(fetchLocalCubierta(ceco)),
     ]
 
-    if (!dataFetched) {
-        Promise.all(dataFetch).then(data => {
-            //console.log('-> Promis All to fech state', data)
-            setDataFetched(true)
-            setLoading(false)
-        })
-    }
+    useEffect(() => {
+        if (!dataFetched) {
+            Promise.all(dataFetch).then(data => {
+                //console.log('-> Promis All to fech state', data)
+                setDataFetched(true)
+                setLoading(false)
+            })
+        }
+
+        return () => { }
+    }, [])
 
     return (
         <>
