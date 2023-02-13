@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Navigate, Routes, Route, HashRouter } from 'react-router-dom'
 import Login from './pages/login/Login'
 import Home from './pages/home/Home'
 
@@ -16,14 +16,16 @@ import ElectricSys from './pages/local/sections/ElectricSys'
 import ElectricGen from './pages/local/sections/ElectricGen'
 import Gases from './pages/local/sections/Gases'
 import SendAlert from './pages/SendAlert'
+import Mail from './pages/Mail'
 
 function App() {
 
   return (
     <div>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path='/' element={<Login />} />
+          <Route path='/mail' element={<Mail />} />
           <Route path='/app' element={<Home />} />
           <Route path='/sendAlert' element={<SendAlert />} />
           <Route path='/local/:ceco/' element={<LocalLayout />} >
@@ -42,7 +44,7 @@ function App() {
           </Route>
           <Route path='*' element={<h1>Error</h1>} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </div>
   )
 }
