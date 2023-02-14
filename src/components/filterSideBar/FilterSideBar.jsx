@@ -5,6 +5,7 @@ import SmuLogo from '../../assets/svgs/SmuLogo'
 import { setAuthLogout } from '../../state/slices/authSlice'
 import { setLocalsLoggout } from '../../state/slices/localsSlice'
 import { setViewsLogout } from '../../state/slices/viewsSlice'
+import { filterGeoJson } from '../../state/slices/localsSlice'
 
 const FilterSideBar = (props) => {
     const navigate = useNavigate()
@@ -57,18 +58,23 @@ const FilterSideBar = (props) => {
                     <div className='px-2'>
                         <label className='' htmlFor="cars">Selecciona un formato:</label>
                         <select
+                            onChange={({ target }) => {
+                                console.log('Target value', target.value)
+                                dispatch(filterGeoJson(target.value))
+                            }}
                             className='h-8 py-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' name="format" id="format" form="formatSelector">
-                            <option value="uni">All</option>
-                            <option value="uni">Unimarc</option>
-                            <option value="alvi">Alvi</option>
-                            <option value="s10">Super 10</option>
-                            <option value="m10">Mayorista 10</option>
+                            <option value="">All</option>
+                            <option value="UNI">Unimarc</option>
+                            <option value="ALVI">Alvi</option>
+                            <option value="S10">Super 10</option>
+                            <option value="M10">Mayorista 10</option>
                         </select>
                     </div>
 
                     <div className='px-2'>
                         <label className='' htmlFor="supervisor">Selecciona un supervisor:</label>
-                        <select className='h-8 py-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' name="format" id="format" form="formatSelector">
+                        <select
+                            className='h-8 py-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' name="format" id="format" form="formatSelector">
                             <option value="name1">Name 1</option>
                             <option value="name2">Name 2c</option>
                             <option value="name3">Name 3</option>

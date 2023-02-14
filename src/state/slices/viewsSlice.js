@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { loadAbort } from '../../utilities/load-abort'
 
 const initialState = {
     local: {},
@@ -82,7 +83,8 @@ export const { setMode, setLogin, setViewsLogout, setLocals } = viewsSlice.actio
 export default viewsSlice.reducer
 
 export const fetchLocal = createAsyncThunk('local/getLocal', async (local) => {
-    const response = await axios.get(`https://smu-api.herokuapp.com/api/local/${local}`).then((data) => {
+    const controller = loadAbort
+    const response = await axios.get(`https://smu-api.herokuapp.com/api/local/${local}`, { signal: controller.signal }, controller).then((data) => {
         console.log('From fetch GetLocal', data.data)
         return data.data
     }).catch((err) => {

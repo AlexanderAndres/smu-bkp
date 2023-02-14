@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 const Identificator = () => {
-    const data = useSelector((state) => state.views.local.data[0])
+    const [data, setData] = useState([])
+    const local = useSelector((state) => state.views.local.data[0])
     //console.log('Data on identificator:', data)
+    useEffect(() => {
+        if (local) {
+            setData(local)
+        }
+        return () => { }
+    }, [local])
 
     return (
         <div className='grid place-items-start max-h-28'>

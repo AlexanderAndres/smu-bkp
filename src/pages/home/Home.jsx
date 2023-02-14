@@ -40,7 +40,7 @@ const Map = () => {
     if (!user.rut) {
       navigate('/')
     }
-    console.log('Usee effect')
+    return () => { }
   }, [])
 
   useEffect(() => {

@@ -33,11 +33,15 @@ export const localSlice = createSlice({
             state.geoJson = {}
             state.arquitectura = {}
             state.fire = {}
+        },
+        filterGeoJson: (state, action) => {
+            console.log('Action:', action)
+            state.geoJson.data.features = state.geoJson.data.features.filter((obj) => obj.properties.localType === action.payload);
         }
     },
 })
 
-export const { setLocals, updateLocals, setGeoJson, updateGeoJson, setArc, setLocalsLoggout } = localSlice.actions
+export const { setLocals, updateLocals, setGeoJson, updateGeoJson, setArc, setLocalsLoggout, filterGeoJson } = localSlice.actions
 
 export default localSlice.reducer
 
