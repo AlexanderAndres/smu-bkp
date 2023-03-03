@@ -1,14 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Loader from '../../../components/loader/Loader'
 import Identificator from '../../../components/views/Identificator'
+import { fetchLocalArc } from '../../../state/slices/viewsSlice'
 //import { fetchLocalArc } from '../../../services/localService'
 
-const Architecture = (props) => {
+const Architecture = () => {
+    
     const [modal, setModal] = useState({})
     const [showModal, setShowModal] = useState(false)
+    const { ceco } = useSelector(state => state.views.local.data[0])
     const dispatch = useDispatch()
 
+    const [dataFetched, setDataFetched] = useState(false)
+    const [loading, setLoading] = useState(true)
+
     const req = useSelector((state) => state.views.arquitectura)
+
+    useEffect(() => {
+        if (!dataFetched) {
+            dispatch(fetchLocalArc(ceco)).then((data) => {
+                setDataFetched(true)
+                setLoading(false)
+            })
+        }
+
+        return () => { }
+    }, [])
 
     const closeModal = () => {
         setShowModal(false)
@@ -19,6 +37,10 @@ const Architecture = (props) => {
         console.log('Image from modal:', img)
         setModal(img)
         setShowModal(true)
+    }
+
+    if (loading || !req) {
+        return <Loader show={loading ? true : false} />
     }
 
     return (

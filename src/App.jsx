@@ -17,6 +17,7 @@ import ElectricGen from './pages/local/sections/ElectricGen'
 import Gases from './pages/local/sections/Gases'
 import SendAlert from './pages/SendAlert'
 import Mail from './pages/Mail'
+import NewSidebar from './components/NewSidebar'
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <Route path='/mail' element={<Mail />} />
           <Route path='/app' element={<Home />} />
           <Route path='/sendAlert' element={<SendAlert />} />
+          <Route path='/sidebar' element={<NewSidebar />} />
           <Route path='/local/:ceco/' element={<LocalLayout />} >
             <Route index element={<Events />} />
             <Route path='arquitectura' element={<Architecture />} />

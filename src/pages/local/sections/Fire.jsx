@@ -1,13 +1,32 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Loader from '../../../components/loader/Loader'
+import { fetchLocalFire } from '../../../state/slices/viewsSlice'
 
 const Fire = () => {
+
     const [showModal, setShowModal] = useState(false)
     const [modal, setModal] = useState({})
+
+    const [dataFetched, setDataFetched] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const dispatch = useDispatch()
+
     const data = useSelector((state) => state.views.incendios.data[0])
 
+    const { ceco } = useSelector(state => state.views.local.data[0])
+    useEffect(() => {
+        if (!dataFetched) {
+            dispatch(fetchLocalFire(ceco)).then((data) => {
+                setDataFetched(true)
+                setLoading(false)
+            })
+        }
+
+        return () => { }
+    }, [])
+
     const handleModal = (img) => {
-        //console.log('Image from modal:', img)
         setModal(img)
         setShowModal(true)
     }
@@ -15,6 +34,10 @@ const Fire = () => {
     const closeModal = () => {
         setShowModal(false)
         setModal({})
+    }
+
+    if (loading || !data) {
+        return <Loader show={loading ? true : false} />
     }
 
     return (

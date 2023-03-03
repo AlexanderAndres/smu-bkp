@@ -3,6 +3,7 @@ import axios from 'axios'
 import { loadAbort } from '../../utilities/load-abort'
 
 const initialState = {
+    loading: false,
     local: {},
     events: {},
     arquitectura: {},
@@ -22,6 +23,9 @@ export const viewsSlice = createSlice({
     name: 'views',
     initialState,
     reducers: {
+        setLoading: (state, action) => {
+            state.loading = action.payload
+        },
         setViewsLogout: (state) => {
             state.local = {}
             state.events = {}
@@ -50,6 +54,7 @@ export const viewsSlice = createSlice({
                 state.arquitectura = action.payload
             })
             .addCase(fetchLocalFire.fulfilled, (state, action) => {
+                console.log('Fire Payload:', action.payload)
                 state.incendios = action.payload
             })
             .addCase(fetchLocalMantenaince.fulfilled, (state, action) => {
@@ -70,6 +75,15 @@ export const viewsSlice = createSlice({
             .addCase(openLocalEvent.fulfilled, (state) => {
                 state.events = { ...state.events }
             })
+            .addCase(fetchLocalClimat.fulfilled, (state, action) => {
+                state.climatizacion = action.payload
+            })
+            .addCase(fetchLocalFoodCooling.fulfilled, (state, action) => {
+                state.frio_alimentario = action.payload
+            })
+            .addCase(fetchCortina.fulfilled, (state, action) => {
+                state.cortina_metalica = action.payload
+            })
         /*
         .addCase(fetchLocalClimatizacion.fulfilled, (state, action) => {
             state.climatizacion = action.payload
@@ -78,14 +92,14 @@ export const viewsSlice = createSlice({
     }
 })
 
-export const { setMode, setLogin, setViewsLogout, setLocals } = viewsSlice.actions
+export const { setMode, setLogin, setViewsLogout, setLoading, setLocals } = viewsSlice.actions
 
 export default viewsSlice.reducer
 
 export const fetchLocal = createAsyncThunk('local/getLocal', async (local) => {
     const controller = loadAbort
     const response = await axios.get(`https://smu-api.herokuapp.com/api/local/${local}`, { signal: controller.signal }, controller).then((data) => {
-        console.log('From fetch GetLocal', data.data)
+        //console.log('From fetch GetLocal', data.data)
         return data.data
     }).catch((err) => {
         console.log(err)
@@ -94,7 +108,7 @@ export const fetchLocal = createAsyncThunk('local/getLocal', async (local) => {
 })
 export const fetchLocalEvents = createAsyncThunk('local/getLocalEvents', async (local) => {
     const response = await axios.get(`https://smu-api.herokuapp.com/api/alert/${local}`).then((data) => {
-        console.log('From fetchLocalEvents', data.data)
+        //console.log('From fetchLocalEvents', data.data)
         return data.data
     }).catch((err) => {
         console.log(err)
@@ -103,9 +117,9 @@ export const fetchLocalEvents = createAsyncThunk('local/getLocalEvents', async (
 })
 export const closeLocalEvents = createAsyncThunk('local/closeEvent', async (data) => {
     const { id, ceco } = data
-    console.log('Data in slice:', id, ceco)
+    //console.log('Data in slice:', id, ceco)
     const response = await axios.post(`https://smu-api.herokuapp.com/api/alert/${id}/${ceco}`).then((data) => {
-        console.log('Get close alert', data.data)
+        //console.log('Get close alert', data.data)
         return data.data
     }).catch((err) => {
         console.log(err)
@@ -141,7 +155,7 @@ export const openLocalEvent = createAsyncThunk('local/openEvent', async (data) =
 })
 export const fetchLocalArc = createAsyncThunk('local/getArc', async (local) => {
     const response = await axios.get(`https://smu-api.herokuapp.com/api/view1/${local}`).then((data) => {
-        //console.log('From fetch arc', data.data)
+        console.log('From fetch arc', data.data)
         return data.data
     }).catch((err) => {
         console.log(err)
@@ -199,8 +213,7 @@ export const fetchLocalCubierta = createAsyncThunk('local/getRoof', async (local
     return response
 }
 )
-/*
-export const fetchLocalClimatizacion = createAsyncThunk('local/getRoof', async (local) => {
+export const fetchLocalClimat = createAsyncThunk('local/getClim', async (local) => {
     const response = await axios.get(`https://smu-api.herokuapp.com/api/view6/${local}`).then((data) => {
         //console.log('From fetch arc', data.data)
         return data.data
@@ -208,5 +221,25 @@ export const fetchLocalClimatizacion = createAsyncThunk('local/getRoof', async (
         console.log(err)
     })
     return response
-})
-*/
+}
+)
+export const fetchLocalFoodCooling = createAsyncThunk('local/getFoofCoo', async (local) => {
+    const response = await axios.get(`https://smu-api.herokuapp.com/api/view7/${local}`).then((data) => {
+        //console.log('From fetch arc', data.data)
+        return data.data
+    }).catch((err) => {
+        console.log(err)
+    })
+    return response
+}
+)
+export const fetchCortina = createAsyncThunk('local/getCortina', async (local) => {
+    const response = await axios.get(`https://smu-api.herokuapp.com/api/view8/${local}`).then((data) => {
+        //console.log('From fetch arc', data.data)
+        return data.data
+    }).catch((err) => {
+        console.log(err)
+    })
+    return response
+}
+)

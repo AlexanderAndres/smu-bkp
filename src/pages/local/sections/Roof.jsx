@@ -1,20 +1,42 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Loader from '../../../components/loader/Loader'
+import { fetchLocalCubierta } from '../../../state/slices/viewsSlice'
 
 const Roof = () => {
     const data = useSelector((state) => state.views.cubierta.data)
     const [modal, setModal] = useState({})
     const [showModal, setShowModal] = useState(false)
 
+    const { ceco } = useSelector(state => state.views.local.data[0])
+    const dispatch = useDispatch()
+
+    const [dataFetched, setDataFetched] = useState(false)
+    const [loading, setLoading] = useState(true)
     const closeModal = () => {
         setShowModal(false)
         setModal({})
     }
 
+    useEffect(() => {
+        if (!dataFetched) {
+            dispatch(fetchLocalCubierta(ceco)).then((data) => {
+                setDataFetched(true)
+                setLoading(false)
+            })
+        }
+
+        return () => { }
+    }, [])
+
     const handleModal = (img) => {
         console.log('Image from modal:', img)
         setModal(img)
         setShowModal(true)
+    }
+
+    if (loading || !data) {
+        return <Loader show={loading ? true : false} />
     }
 
     return (

@@ -1,12 +1,25 @@
+import { useSpring, animated } from 'react-spring';
+
 const Marker = ({ onClick, children, feature }) => {
+
+    const props = useSpring({
+        from: { y: 0 },
+        to: { y: 5 },
+        config: { mass: 1, tension: 600, friction: 10 },
+    });
+
     const _onClick = () => {
         onClick(feature.properties.description);
     };
 
     return (
-        <button onClick={_onClick} className="marker">
+        <animated.button
+            onClick={_onClick}
+            style={props}
+            className="marker"
+        >
             {children}
-        </button>
+        </animated.button>
     );
 };
 

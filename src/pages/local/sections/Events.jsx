@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Loader from '../../../components/loader/Loader'
+import PageLoader from '../../../components/loader/PageLoader'
 import { closeLocalEvents, fetchLocalEvents } from '../../../state/slices/viewsSlice'
 
 const Events = () => {
@@ -66,9 +67,9 @@ const Events = () => {
 
   return (
     <>
-      <Loader show={loading ? true : false} />
+      <PageLoader show={loading ? true : false} />
       <div className='w-full min-h-screen grid place-items-center'>
-        <div className="rounded-xl bg-slate-700 w-[95%] p-6 drop-shadow-lg shadow-white ">
+        <div className="bg-slate-800 w-full p-6 drop-shadow-lg shadow-white ">
           <h2 className='text-4xl pl-3'>Eventos</h2>
           <div>
             {events && events.map((alert) => {

@@ -1,32 +1,24 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { fetchMarkers } from '../thunks/fetchMarkers';
+
 
 const initialState = {
-    locals: [],
-    geoJson: {},
-    arquitectura: {},
-    fire: {}
+    info: {},
+    selectedFormat: '',
+    selectedJefeSuper: '',
+    selectedSuper: '',
+    selectedAdmin: '',
+    status: 'idle',
+    error: null,
 }
 
 export const localSlice = createSlice({
     name: 'locals',
     initialState,
     reducers: {
-        setLocals: (state, action) => {
-            //console.log(action.payload);
-            state.locals = action.payload
-        },
-        updateLocals: (state) => {
-            //console.log(action.payload);
-            state.locals = action.payload
-        },
-        setGeoJson: (state, action) => {
-            //console.log('Payload geojson', action.payload);
-            state.geoJson = action.payload;
-        },
-        updateGeoJson: (state) => {
-            //console.log(action.payload);
-            state.geoJson = { ...state.geoJson, geoJson: action.payload.geoJson }
+        setInfo: (state, action) => {
+            state.info = action.payload;
         },
         setLocalsLoggout: (state) => {
             state.locals = []
@@ -34,43 +26,51 @@ export const localSlice = createSlice({
             state.arquitectura = {}
             state.fire = {}
         },
-        filterGeoJson: (state, action) => {
-            console.log('Action:', action)
-            state.geoJson.data.features = state.geoJson.data.features.filter((obj) => obj.properties.localType === action.payload);
-        }
+        setSelectedFormat: (state, action) => {
+            console.log('[Action payload]', action.payload)
+            const newValue = action.payload === '<empty string>' ? '' : action.payload;
+            state.selectedFormat = newValue
+        },
+        setSelectedJefeSuper: (state, action) => {
+            console.log('[Action payload]', action.payload)
+            const newValue = action.payload === '<empty string>' ? '' : action.payload;
+            state.selectedJefeSuper = newValue
+        },
+        setSelectedSuper: (state, action) => {
+            console.log('[Action payload]', action.payload)
+            const newValue = action.payload === '<empty string>' ? '' : action.payload;
+            state.selectedSuper = newValue
+        },
+        setSelectedAdmin: (state, action) => {
+            console.log('[Action payload]', action.payload)
+            const newValue = action.payload === '<empty string>' ? '' : action.payload;
+            state.selectedAdmin = newValue
+        },
+    },
+    extraReducers: {
+        [fetchMarkers.pending]: (state) => {
+            state.status = 'loading';
+        },
+        [fetchMarkers.fulfilled]: (state, action) => {
+            state.status = 'succeeded';
+            state.info = action.payload;
+        },
+        [fetchMarkers.rejected]: (state, action) => {
+            state.status = 'failed';
+            state.error = action.error.message;
+        },
     },
 })
 
-export const { setLocals, updateLocals, setGeoJson, updateGeoJson, setArc, setLocalsLoggout, filterGeoJson } = localSlice.actions
+export const filterGeoJson = ({ user, format }) => (dispatch) => {
+    console.log('User:', user, 'Format:', format)
+    //dispatch(setSelectedFormat(format));
+    axios.get(`https://smu-api.herokuapp.com/api/local/rut/${user}`).then((resp) => {
+        console.log('Response from filter:', resp.data.data)
+        //console.log('Response from filter: alvi', resp.data.data.filter((obj) => obj.localType === format))
+    });
+};
+
+export const { setInfo, setLocalsLoggout, setSelectedFormat, setSelectedJefeSuper, setSelectedSuper, setSelectedAdmin } = localSlice.actions
 
 export default localSlice.reducer
-
-export const fetchMarkers = createAsyncThunk('markers/rut', async (user) => {
-    const response = await axios.get(`https://smu-api.herokuapp.com/api/local/rut/${user}`)
-        .then((resp) => {
-            const geoJson = {
-                'type': 'geojson',
-                'data': {
-                    "type": "FeatureCollection",
-                    "features": []
-                }
-            }
-
-            resp.data.data.forEach((local) => {
-                geoJson.data.features.push({
-                    "type": "Feature",
-                    "properties": local,
-                    "geometry": {
-                        "coordinates": [
-                            `${local.longitude}`,
-                            `${local.latitude}`
-                        ],
-                        "type": "Point"
-                    }
-                });
-            });
-            //console.log('Thunk json:', geoJson)
-            return geoJson
-        })
-    return response
-})

@@ -6,6 +6,7 @@ import Loader from '../../components/loader/Loader';
 import { useDispatch } from 'react-redux';
 import { fetchLocal, fetchLocalEvents } from '../../state/slices/viewsSlice';
 import Identificator from '../../components/views/Identificator';
+import NewSidebar from '../../components/sidebar/NewSidebar';
 
 
 const LocalLayout = () => {
@@ -28,18 +29,11 @@ const LocalLayout = () => {
 
     return (
         <>
-            {/* heading section */}
-            {/* sidebar section */}
             <Loader show={loading ? true : false} />
-            <section className=''>
-                <div className='grid grid-cols-12'>
-                    <div className='col-span-3 bg-black h-screen md:col-span-2'>
-                        <Sidebar />
-                    </div>
-                    <div className='col-span-10 bg-gray-900 grid h-screen pl-10 overflow-y-auto'>
-                        {dataFetched ? <Identificator /> : null}
-                        {dataFetched ? <Outlet className='h-full' ceco={ceco} /> : null}
-                    </div>
+            <section className='flex bg-gray-900'>
+                <NewSidebar />
+                <div className='h-full flex-1 pl-20'>
+                    {dataFetched ? <Outlet className='' ceco={ceco} /> : null}
                 </div>
             </section>
         </>
@@ -48,3 +42,20 @@ const LocalLayout = () => {
 }
 
 export default LocalLayout
+
+/*
+        <>
+            <Loader show={loading ? true : false} />
+            <section className='bg-gray-900'>
+                <div className='grid grid-cols-10'>
+                    <div className='col-span-2 h-screen md:col-span-2'>
+                        <Sidebar />
+                    </div>
+                    <div className='col-span-8  grid h-screen overflow-y-auto'>
+                        {dataFetched ? <Identificator /> : null}
+                        {dataFetched ? <Outlet className='h-full' ceco={ceco} /> : null}
+                    </div>
+                </div>
+            </section>
+        </>
+*/

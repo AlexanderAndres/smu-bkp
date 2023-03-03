@@ -1,25 +1,46 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Loader from '../../../components/loader/Loader'
+import { fetchLocalIluminacion } from '../../../state/slices/viewsSlice'
 
 const Illumination = () => {
+    const { ceco } = useSelector(state => state.views.local.data[0])
     const data = useSelector((state) => state.views.iluminacion.data)
     const [modal, setModal] = useState({})
     const [showModal, setShowModal] = useState(false)
 
+    const [dataFetched, setDataFetched] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const dispatch = useDispatch()
     const closeModal = () => {
         setShowModal(false)
         setModal({})
     }
 
     const handleModal = (img) => {
-        console.log('Image from modal:', img)
+        //console.log('Image from modal:', img)
         setModal(img)
         setShowModal(true)
     }
 
+    useEffect(() => {
+        if (!dataFetched) {
+            dispatch(fetchLocalIluminacion(ceco)).then((data) => {
+                setDataFetched(true)
+                setLoading(false)
+            })
+        }
+
+        return () => { }
+    }, [])
+
+    if (loading || !data) {
+        return <Loader show={loading ? true : false} />
+    }
+
     return (
         <>
-            <div className='w-full min-h-screen grid place-items-center'>
+            <div className='w-full min-h-screen grid place-items-center bg-red-600'>
                 <div className="grid grid-cols-12 grid-rows-12 rounded-xl bg-slate-700 h-[90%] gap-2 w-[95%] p-6 drop-shadow-lg shadow-white">
                     <div className='rounded-xl h-40 grid place-items-center col-span-6 row-span-1 col-start-1 row-start-1 bg-slate-100 text-gray-900 first-line p-5'>
                         <p className=''><b>Tipo Canoas:</b>{data[0].tipo}</p>

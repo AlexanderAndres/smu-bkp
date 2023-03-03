@@ -1,14 +1,12 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setLogin } from '../../state/slices/authSlice'
+import { setInfo } from '../../state/slices/localsSlice'
+import { fetchMarkers } from '../../state/thunks/fetchMarkers'
 
 const Login = () => {
-  const auth = useSelector(state => state.auth)
-
-  const [isAuthenticating, setIsAuthenticating] = useState(false)
   const [error, setError] = useState('')
 
   const [credentials, setCredentials] = useState({
@@ -19,11 +17,21 @@ const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const handleUpperCase = (fieldName, value) => {
+    if (fieldName === 'email' && typeof value === 'string') {
+      return value.toUpperCase();
+    }
+    return value;
+  }
+
   const handleChange = e => {
-    setCredentials({
-      ...credentials,
-      [e.target.name]: e.target.value
-    })
+    const { name, value } = e.target;
+    const newValue = name === 'email' ? handleUpperCase(name, value) : value;
+    setCredentials(prevCredentials => ({
+      ...prevCredentials,
+      email: name === 'email' ? newValue : prevCredentials.email,
+      password: name === 'password' ? value : prevCredentials.password
+    }));
   }
 
   const login = async (user) => {
@@ -36,10 +44,13 @@ const Login = () => {
           rut: response.data.rut,
           role: response.data.role
         }))
+
+        dispatch(fetchMarkers(response.data.rut))
+
         navigate('/app')
       })
       .catch((err) => {
-        setError(err.response.data.error)
+        setError(err)
 
         setTimeout(() => {
           setError('')
@@ -49,7 +60,7 @@ const Login = () => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    //console.log('Credentials:', credentials)
+    console.log('[Credentials]:', credentials)
     login(credentials)
   }
 
@@ -100,7 +111,7 @@ const Login = () => {
               name='password'
               onChange={handleChange}
               className='w-full border-2 border-gray-100 rounded-xl p-4 mt-1 bg-transparent'
-              placeholder="Enter your email"
+              placeholder="Enter your password"
               type={"password"}
             />
           </div>

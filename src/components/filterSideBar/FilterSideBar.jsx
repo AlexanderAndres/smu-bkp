@@ -3,16 +3,20 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import SmuLogo from '../../assets/svgs/SmuLogo'
 import { setAuthLogout } from '../../state/slices/authSlice'
-import { setLocalsLoggout } from '../../state/slices/localsSlice'
+import { setLocalsLoggout, setSelectedFormat, setSelectedSuper, setSelectedJefeSuper, setSelectedAdmin } from '../../state/slices/localsSlice'
 import { setViewsLogout } from '../../state/slices/viewsSlice'
 import { filterGeoJson } from '../../state/slices/localsSlice'
 
-const FilterSideBar = (props) => {
+const FilterSideBar = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [showFilters, setShowFilters] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
     const [userRole, setUserRole] = useState(0)
+    const [userFilter, setUserFilter] = useState({})
+
+    const selectedFormat = useSelector(state => state.locals.selectedFormat);
+    const usersFilters = useSelector((state) => state.locals.info ? state.locals.info.uniqueUsers : {});
 
     const user = useSelector((state) => {
         if (state.auth) {
@@ -22,7 +26,9 @@ const FilterSideBar = (props) => {
     })
 
     useEffect(() => {
-        setUserRole(user.role)
+        setUserRole(0)
+        setUserFilter(usersFilters)
+        //setUserRole(user.role)
     }, [])
 
     const hanndleLoggout = () => {
@@ -54,16 +60,17 @@ const FilterSideBar = (props) => {
                 <span className='ml-12 pt-1'>{user.user}</span>
             </div>
             {(userRole <= 4) ? (
-                <nav className='pt-10 h-full grid grid-rows-6'>
+                <nav className='pt-10 h-[70%] grid grid-rows-6'>
                     <div className='px-2'>
-                        <label className='' htmlFor="cars">Selecciona un formato:</label>
+                        <label className='' htmlFor="cars">Formato:</label>
                         <select
                             onChange={({ target }) => {
-                                console.log('Target value', target.value)
-                                dispatch(filterGeoJson(target.value))
+                                const newValue = target.value === '<empty string>' ? '' : target.value;
+                                dispatch(setSelectedFormat(newValue))
                             }}
+                            value={selectedFormat}
                             className='h-8 py-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' name="format" id="format" form="formatSelector">
-                            <option value="">All</option>
+                            <option value="">Todos</option>
                             <option value="UNI">Unimarc</option>
                             <option value="ALVI">Alvi</option>
                             <option value="S10">Super 10</option>
@@ -71,25 +78,79 @@ const FilterSideBar = (props) => {
                         </select>
                     </div>
 
+                    {Object.keys(usersFilters).length > 0 && (
+                        <div className='px-2'>
+                            <label className='' htmlFor="supervisor">Jefe de supervisor:</label>
+                            <select
+                                onChange={({ target }) => {
+                                    //console.log('Target value', target.value)
+                                    const newValue = target.value === '<empty string>' ? '' : target.value;
+                                    dispatch(setSelectedJefeSuper(newValue))
+                                }}
+                                className='h-8 py-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' name="format" id="format" form="formatSelector">
+                                <option value="">Todos</option>
+                                {Object.values(userFilter).map((user) => {
+                                    if (user.role === 'jefeSupervisor') {
+                                        return (
+                                            <option key={user.rut} value={user.rut}>
+                                                {user.firstName} {user.surname}
+                                            </option>
+                                        )
+                                    }
+                                })}
+                            </select>
+                        </div>
+                    )}
+
                     <div className='px-2'>
-                        <label className='' htmlFor="supervisor">Selecciona un supervisor:</label>
+                        <label className='' htmlFor="supervisor">Supervisor:</label>
                         <select
+                            onChange={({ target }) => {
+                                //console.log('Target value', target.value)
+                                const newValue = target.value === '<empty string>' ? '' : target.value;
+                                dispatch(setSelectedSuper(newValue))
+                            }}
                             className='h-8 py-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' name="format" id="format" form="formatSelector">
-                            <option value="name1">Name 1</option>
-                            <option value="name2">Name 2c</option>
-                            <option value="name3">Name 3</option>
-                            <option value="name4">Name 4</option>
+                            <option value="">Todos</option>
+                            {Object.values(userFilter).map((user) => {
+                                if (user.role === 'supervisor') {
+                                    return (
+                                        <option key={user.rut} value={user.rut}>
+                                            {user.firstName} {user.surname}
+                                        </option>
+                                    )
+                                }
+                            })}
+                        </select>
+                    </div>
+
+                    <div className='px-2'>
+                        <label className='' htmlFor="supervisor">Administrador:</label>
+                        <select
+                            onChange={({ target }) => {
+                                //console.log('Target value', target.value)
+                                const newValue = target.value === '<empty string>' ? '' : target.value;
+                                dispatch(setSelectedAdmin(newValue))
+                            }}
+                            className='h-8 py-0 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' name="format" id="format" form="formatSelector">
+                            <option value="">Todos</option>
+                            {Object.values(userFilter).map((user) => {
+                                if (user.role === 'administrador') {
+                                    return (
+                                        <option key={user.rut} value={user.rut}>
+                                            {user.firstName} {user.surname}
+                                        </option>
+                                    )
+                                }
+                            })}
                         </select>
                     </div>
                 </nav>
             ) : (null)
-            }
-            <div className={`grid place-items-center row-end-7 place-self-center h-52 w-full bg-gray-700 ${(userRole <= 4) ? '' : `${showMenu ? '' : 'hidden'} py-5`}`}>
-                <a onClick={hanndleLoggout}
-                    className="rounded-lg grid hover:cursor-pointer place-items-center h-8 w-36 hover:bg-red-700 border border-red-200 hover:border-red-500 hover:text-red-100 transition-colors">
-                    Loggout
-                </a>
-            </div>
+            }<a onClick={hanndleLoggout}
+                className="absolute bottom-0 grid hover:cursor-pointer place-items-center h-12 w-full bg-slate-700 hover:bg-red-600 hover:text-red-100 transition-colors">
+                Cerrar Sesion
+            </a>
         </div>
     )
 }
