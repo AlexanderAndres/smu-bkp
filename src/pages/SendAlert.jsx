@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import PageLoader from '../components/loader/PageLoader'
 import { openLocalEvent } from '../state/slices/viewsSlice'
 
 const SendAlert = () => {
@@ -16,11 +18,14 @@ const SendAlert = () => {
         danos: 0,
         estadoLocal_id: 0
     })
+
+    const [loading, setLoading] = useState(true)
     const [ret, setRet] = useState({})
     const [count, setCount] = useState(0)
     const local = useSelector((state) => state.views.local.data[0])
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [alertsTypes, setAlertsTypes] = useState([])
 
     const handleChange = e => {
         setNewAlert({
@@ -28,6 +33,17 @@ const SendAlert = () => {
             [e.target.name]: e.target.value
         })
     }
+
+    useEffect(() => {
+        axios.get(`https://smu-api.herokuapp.com/api/alert/types`).then((resp) => {
+            //console.log('Response from AlertsTypes:', resp.data.data)
+            setAlertsTypes(resp.data.data)
+            setLoading(false)
+        });
+
+        return () => { }
+    }, [])
+
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -70,6 +86,7 @@ const SendAlert = () => {
 
     return (
         <>
+            <PageLoader show={loading ? true : false} /><PageLoader show={loading ? true : false} />
             {
                 ret?.type ? (
                     <div className={`fixed top-5 right-5 bg-white py-4 px-6 max-w-md border-l-4 ${ret.type === 0 ? 'border-red-600' : 'border-green-600'} rounded-lg flex items-center gap-3 shadow-lg`}>
@@ -94,12 +111,13 @@ const SendAlert = () => {
                         <label htmlFor="tipeAlert" className="block text-sm font-medium text-white">Elige un Tipo de alerta</label>
                         <select name="tipeAlert" onChange={handleChange} className="bg-gray-50 border mt-4 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                             <option value=''>Seleccione un tipo!</option>
-                            <option value={1}>Amago de incendio</option>
-                            <option value={2}>Caida de frio: mural</option>
-                            <option value={3}>Caida de frio: central media t°</option>
-                            <option value={4}>Caida de frio: central baja t°</option>
-                            <option value={5}>Caida por trabajos en altura</option>
-                            <option value={6}>Corte de electricidad</option>
+                            {
+                                alertsTypes.map(type => {
+                                    return (
+                                        <option key={type.id} value={type.id}>{type.type}</option>
+                                    )
+                                })
+                            }
                         </select>
                     </div>
                     <div className="flex items-center my-4">

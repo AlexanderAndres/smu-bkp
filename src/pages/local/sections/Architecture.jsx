@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../../../components/loader/Loader'
+import PageLoader from '../../../components/loader/PageLoader'
 import Identificator from '../../../components/views/Identificator'
 import { fetchLocalArc } from '../../../state/slices/viewsSlice'
 //import { fetchLocalArc } from '../../../services/localService'
 
 const Architecture = () => {
-    
+
     const [modal, setModal] = useState({})
     const [showModal, setShowModal] = useState(false)
     const { ceco } = useSelector(state => state.views.local.data[0])
@@ -40,7 +41,7 @@ const Architecture = () => {
     }
 
     if (loading || !req) {
-        return <Loader show={loading ? true : false} />
+        return <PageLoader show={loading ? true : false} />
     }
 
     return (
@@ -69,8 +70,8 @@ const Architecture = () => {
                     </div>
                     <div className="grid grid-cols-2 grid-rows-3gap-4 col-start-1 row-start-2 col-span-6 row-span-2">
                         <div className="bg-slate-600 rounded-xl col-start-1 col-span-3 row-span-3 bg-cover bg-center"
-                            style={{ backgroundImage: `url(${req.data[0].estacionamiento})` }}
-                            onClick={() => handleModal(req.data[0].estacionamiento)}
+                            style={{ backgroundImage: `url(${req.data[0].plano})` }}
+                            onClick={() => handleModal(req.data[0].plano)}
                         >
                         </div>
                     </div>

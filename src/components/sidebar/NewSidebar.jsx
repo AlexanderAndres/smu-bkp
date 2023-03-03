@@ -37,52 +37,52 @@ const NewSidebar = () => {
         },
         {
             name: "Extinción de incendios",
-            path: "/incendios",
+            path: "incendios",
             icon: < FaFireExtinguisher />
         },
         {
             name: "Mantencion",
-            path: "/mantencion",
+            path: "mantencion",
             icon: < MdHealthAndSafety />
         },
         {
             name: "Iluminación sala de ventas",
-            path: "/ilum-ventas",
+            path: "ilum-ventas",
             icon: < BsLightbulbFill />
         },
         {
             name: "Cubierta",
-            path: "/cubierta",
+            path: "cubierta",
             icon: < BsFillHouseFill />
         },
         {
             name: "Climatización",
-            path: "/climatizacion",
+            path: "climatizacion",
             icon: < WiDaySnowWind />
         },
         {
             name: "Frio alimentario",
-            path: "/frio-alimentario",
+            path: "frio-alimentario",
             icon: < IoIosSnow />
         },
         {
             name: "Cortina metálica",
-            path: "/cortina",
+            path: "cortina",
             icon: < TbPrison />
         },
         {
             name: "Sistema eléctrico",
-            path: "/sistema-electrico",
+            path: "sistema-electrico",
             icon: < MdElectricalServices />
         },
         {
             name: "Generación eléctrica",
-            path: "/generacion-electrica",
+            path: "generacion-electrica",
             icon: < GiElectric />
         },
         {
             name: "Gases refrigerantes",
-            path: "/gases",
+            path: "gases",
             icon: < FaCloudMeatball />
         }
     ]

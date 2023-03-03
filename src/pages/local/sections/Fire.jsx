@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../../../components/loader/Loader'
+import PageLoader from '../../../components/loader/PageLoader'
 import { fetchLocalFire } from '../../../state/slices/viewsSlice'
 
 const Fire = () => {
@@ -12,7 +13,7 @@ const Fire = () => {
     const [loading, setLoading] = useState(true)
     const dispatch = useDispatch()
 
-    const data = useSelector((state) => state.views.incendios.data[0])
+    const data = useSelector((state) => state.views.incendios)
 
     const { ceco } = useSelector(state => state.views.local.data[0])
     useEffect(() => {
@@ -37,7 +38,7 @@ const Fire = () => {
     }
 
     if (loading || !data) {
-        return <Loader show={loading ? true : false} />
+        return <PageLoader show={loading ? true : false} />
     }
 
     return (
@@ -45,30 +46,30 @@ const Fire = () => {
             <div className='w-full min-h-screen grid place-items-center'>
                 <div className="grid grid-cols-12 grid-rows-12 rounded-xl bg-slate-700 h-[90%] gap-2 w-[95%] p-6 drop-shadow-lg shadow-white">
                     <div className='rounded-xl h-40 col-span-6 row-span-1 col-start-1 row-start-1 bg-slate-100 text-gray-900 first-line p-5'>
-                        <p className=''><b>Autonomia</b> {data.tiempoAutonomia}</p>
-                        <p className=''><b>Capacidad de estanque</b> {data.capacidadEstanque}</p>
-                        <p className=''><b>Cantidad de extintores</b> {data.cantidadTipoExtintores}</p>
-                        <p className=''><b>Gabinetes</b> {data.gabinetes}</p>
+                        <p className=''><b>Autonomia</b> {data.data[0].tiempoAutonomia}</p>
+                        <p className=''><b>Capacidad de estanque</b> {data.data[0].capacidadEstanque}</p>
+                        <p className=''><b>Cantidad de extintores</b> {data.data[0].cantidadTipoExtintores}</p>
+                        <p className=''><b>Gabinetes</b> {data.data[0].gabinetes}</p>
                     </div>
 
                     <div className="grid grid-cols-2 grid-rows-3 gap-4 col-start-7 row-start-1 col-span-6 row-span-1">
                         <div className="bg-slate-600 rounded-xl col-start-1 col-span-3 row-span-3 bg-cover bg-center"
-                            style={{ backgroundImage: `url(${data.rociadores})` }}
-                            onClick={() => handleModal(data.rociadores)}
+                            style={{ backgroundImage: `url(${data.data[0].rociadores})` }}
+                            onClick={() => handleModal(data.data[0].rociadores)}
                         >
                         </div>
                     </div>
                     <div className="grid grid-cols-2 grid-rows-3 gap-4 col-start-7 row-start-2 col-span-6 row-span-2">
                         <div className="bg-slate-600 rounded-xl col-start-1 col-span-3 row-span-3 bg-cover bg-center"
-                            style={{ backgroundImage: `url(${data.estanque})` }}
-                            onClick={() => handleModal(data.estanque)}
+                            style={{ backgroundImage: `url(${data.data[0].estanque})` }}
+                            onClick={() => handleModal(data.data[0].estanque)}
                         >
                         </div>
                     </div>
                     <div className="grid grid-cols-2 grid-rows-3gap-4 col-start-1 row-start-2 col-span-6 row-span-2">
                         <div className="bg-slate-600 rounded-xl col-start-1 col-span-3 row-span-3 bg-cover bg-center"
-                            style={{ backgroundImage: `url(${data.planoExtintores})` }}
-                            onClick={() => handleModal(data.planoExtintores)}
+                            style={{ backgroundImage: `url(${data.data[0].planoExtintores})` }}
+                            onClick={() => handleModal(data.data[0].planoExtintores)}
                         >
                         </div>
                     </div>

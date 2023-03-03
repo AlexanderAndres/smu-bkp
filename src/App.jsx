@@ -28,7 +28,7 @@ function App() {
           <Route path='/' element={<Login />} />
           <Route path='/mail' element={<Mail />} />
           <Route path='/app' element={<Home />} />
-          <Route path='/sendAlert' element={<SendAlert />} />
+          <Route path='/sendEvent' element={<SendAlert />} />
           <Route path='/sidebar' element={<NewSidebar />} />
           <Route path='/local/:ceco/' element={<LocalLayout />} >
             <Route index element={<Events />} />

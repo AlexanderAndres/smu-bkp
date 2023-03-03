@@ -1,6 +1,7 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../../../components/loader/Loader'
 import PageLoader from '../../../components/loader/PageLoader'
 import { closeLocalEvents, fetchLocalEvents } from '../../../state/slices/viewsSlice'
@@ -12,21 +13,34 @@ const Events = () => {
 
   const [dataFetched, setDataFetched] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [alertsTypes, setAlertsTypes] = useState([])
+
+  const navigate = useNavigate();
 
   const switchType = (elem) => {
     switch (elem) {
       case 1:
         return 'Amago de incendio'
       case 2:
-        return 'Corte de agua'
+        return 'Caída de frio, mural'
       case 3:
-        return 'Corte de suministro electrico'
+        return 'Caída de frio, Central de Media Temperatura'
       case 4:
-        return 'Caida de trabajos por alto'
+        return 'Caída de frio, Central de Baja Temperatura'
       case 5:
-        return 'Merma'
+        return 'Caída por trabajos en Altura'
       case 6:
-        return 'Frio'
+        return 'Corte de Electricidad'
+      case 7:
+        return 'Corte de Agua'
+      case 8:
+        return 'Generador con Falla'
+      case 9:
+        return 'Vandalísmo'
+      case 10:
+        return 'Fuga de gas'
+      case 11:
+        return 'Filtración de agua'
     }
   }
 
@@ -35,23 +49,37 @@ const Events = () => {
       case 1:
         return 'bg-red-600'
       case 2:
-        return 'bg-blue-700'
+        return 'bg-blue-500'
       case 3:
-        return 'bg-amber-400'
+        return 'bg-blue-800'
       case 4:
-        return 'bg-lime-400'
+        return 'bg-blue-700'
       case 5:
-        return 'bg-gray-100'
+        return 'bg-gray-50'
       case 6:
-        return 'bg-blue-400'
+        return 'bg-orange-300'
+      case 7:
+        return 'bg-blue-700'
+      case 8:
+        return 'bg-orange-400'
+      case 9:
+        return 'bg-yellow-900'
+      case 10:
+        return 'bg-red-400'
+      case 11:
+        return 'bg-blue-300'
     }
   }
 
   useEffect(() => {
     if (!dataFetched) {
       dispatch(fetchLocalEvents(ceco)).then((data) => {
-        setDataFetched(true)
-        setLoading(false)
+        axios.get(`https://smu-api.herokuapp.com/api/alert/types`).then((resp) => {
+          //console.log('Response from AlertsTypes:', resp.data.data)
+          setAlertsTypes(resp.data.data)
+          setDataFetched(true)
+          setLoading(false)
+        });
       })
     }
 
@@ -65,10 +93,28 @@ const Events = () => {
     })
   }
 
+  const handleAddEvent = () => {
+    navigate('/sendEvent')
+  }
+
   return (
     <>
       <PageLoader show={loading ? true : false} />
       <div className='w-full min-h-screen grid place-items-center'>
+        <div className='fixed top-0 right-0 rounded-sm bg-gray-700 m-5 w-auto h-auto py-2 px-6 z-50'>
+          {
+            alertsTypes.map(type => {
+              return (
+                <div className='py-2 flex items-center gap-3'>
+                  <span key={type.id}>{type.type}</span>
+                  <div className={`${switchColorAlert(type.id)} h-1 w-5`}></div>
+                </div>
+              )
+            })
+          }
+        </div>
+        <button onClick={handleAddEvent}
+          className='fixed rounded-full h-10 w-10 bg-orange-400 right-0 bottom-0 m-5 z-50 grid place-items-center hover:drop-shadow-md shadow-orange-500 hover:bg-orange-500 transition-all duration-150'> + </button>
         <div className="bg-slate-800 w-full p-6 drop-shadow-lg shadow-white ">
           <h2 className='text-4xl pl-3'>Eventos</h2>
           <div>
