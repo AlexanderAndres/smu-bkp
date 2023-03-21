@@ -37,17 +37,25 @@ const Login = () => {
   const login = async (user) => {
     await axios.get(`https://smu-api.herokuapp.com/api/login/${user.email}/${user.password}`)
       .then((response) => {
-        //console.log('Response:', response)
+        //console.log('[Login response]:', response)
         dispatch(setLogin({
           user: response.data.name,
           token: response.data.token,
           rut: response.data.rut,
-          role: response.data.role
+          role: response.data.rol
         }))
 
-        dispatch(fetchMarkers(response.data.rut))
+        dispatch(fetchMarkers(response.data.rut)).then(resp => {
+          console.log('[THEN]')
+          if (response.data.rol === 5) {
+            console.log('[THEN === 5]', resp.payload.geoJson.data.features[0].properties.ceco)
+            navigate('/local/' + resp.payload.geoJson.data.features[0].properties.ceco)
+          } else {
+            navigate('/app')
+            //console.log('[THEN !== 5]')
+          }
+        })
 
-        navigate('/app')
       })
       .catch((err) => {
         setError(err)

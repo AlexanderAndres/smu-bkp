@@ -21,12 +21,7 @@ export const authSlice = createSlice({
             state.rut = action.payload.rut
             state.role = action.payload.role
         },
-        setAuthLogout: (state) => {
-            state.user = null
-            state.token = null
-            state.rut = null
-            state.role = null
-        }
+        setAuthLogout: () => initialState
     }
 })
 

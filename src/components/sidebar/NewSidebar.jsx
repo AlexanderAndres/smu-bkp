@@ -108,10 +108,10 @@ const NewSidebar = () => {
 
     return (
         <div
-            onMouseOver={handleOpen}
+            onMouseEnter={handleOpen}
             onMouseLeave={handleClose}
             //onClick={handleMobileOpen}
-            className={`z-50 fixed h-screen ${open ? 'w-72' : 'w-20'} bg-gray-900 transition-all duration-500`}
+            className={`z-50 fixed h-screen md:h-[95%] md:rounded-lg md:mt-5 md:ml-4 ${open ? 'w-72' : 'w-20'} bg-slate-900 transition-all duration-500`}
         >
             <div className="flex flex-col h-full">
                 <div className={`flex justify-evenly items-center gap-0 py-4 transition-all duration-500 h-20`}>
@@ -125,10 +125,10 @@ const NewSidebar = () => {
                         {items.map((menu, index) => (
                             <li key={menu.name}>
                                 <NavLink to={menu.path} className={`flex flex-row gap-x-4 items-center px-2 transition-all duration-500 cursor-pointer hover:bg-gray-800 w-[90%] h-8 mx-3 rounded-sm `}>
-                                    <div className={`${!open && 'absolute right-9 transition-all duration-500'}`}>
+                                    <div className={`${!open && 'absolute right-8 transition-all duration-500'}`}>
                                         {menu.icon}
                                     </div>
-                                    <span className={`ml-2 transition-all duration-500`}
+                                    <span className={`ml-3 transition-all duration-500`}
                                         style={{
                                             opacity: open ? 1 : 0,
                                             transitionDuration: open ? '1.5s' : '0.01s',
@@ -142,7 +142,7 @@ const NewSidebar = () => {
                     </ul>
                     <a
                         onClick={hanndleLoggout}
-                        className="absolute bottom-0 flex flex-row gap-2 transition-all duration-500 justify-center items-center hover:cursor-pointer h-12 w-full bg-slate-700 hover:bg-red-600 hover:text-red-100"
+                        className="absolute md:rounded-b-lg bottom-0 flex flex-row gap-2 transition-all duration-500 justify-center items-center hover:cursor-pointer h-12 w-full bg-slate-700 hover:bg-red-600 hover:text-red-100"
                     >
                         <span className={`${open ? '' : 'absolute'}`}
                             style={{

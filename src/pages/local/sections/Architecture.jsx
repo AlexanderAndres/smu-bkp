@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Loader from '../../../components/loader/Loader'
 import PageLoader from '../../../components/loader/PageLoader'
-import Identificator from '../../../components/views/Identificator'
 import { fetchLocalArc } from '../../../state/slices/viewsSlice'
-//import { fetchLocalArc } from '../../../services/localService'
 
 const Architecture = () => {
 
     const [modal, setModal] = useState({})
     const [showModal, setShowModal] = useState(false)
-    const { ceco } = useSelector(state => state.views.local.data[0])
+    const { ceco } = useSelector(state => state.views.local?.data?.[0])
     const dispatch = useDispatch()
 
     const [dataFetched, setDataFetched] = useState(false)
@@ -45,58 +42,45 @@ const Architecture = () => {
     }
 
     return (
-        <>
-            <div className='w-full min-h-screen grid place-items-center'>
-                <div className="grid grid-cols-12 grid-rows-12 rounded-xl bg-slate-700 h-[90%] gap-2 w-[95%] p-6 drop-shadow-lg shadow-white">
-                    <div className='rounded-xl h-40 col-span-6 row-span-1 col-start-1 row-start-1 bg-slate-100 text-gray-900 first-line p-5'>
-                        <p className=''><b>Sala ventas:</b>{req.data[0].salaVentas}</p>
-                        <p className=''><b>Bodega:</b> {req.data[0].m2Bodega}</p>
-                        <p className=''><b>Estacionamiento:</b> {req.data[0].m2Estacionamiento}</p>
-                    </div>
+        <div className={`min-h-full h-full w-full pl-24 pr-4 pt-4 md:pl-28 md:pt-5 flex flex-col md:flex-row gap-4`}>
+            <div className={`relative h-[50%] md:h-[97.5%] md:w-[50%] bg-cyan-600 rounded-lg overflow-hidden`}>
+                <div className="h-full w-full">
+                    <img className="absolute top-0 left-0 w-full h-full object-cover z-0" src={req.data[0].interior} alt="" />
+                </div>
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-800 to-slate-900 opacity-40 z-10"></div>
+                <h2 className="absolute z-20 p-4 text-3xl font-semibold uppercase">Datos arquitectonicos</h2>
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white z-20">
+                    <p className=''><b>Sala ventas:</b>{req.data[0].salaVentas}</p>
+                    <p className=''><b>Bodega:</b> {req.data[0].m2Bodega}</p>
+                    <p className=''><b>Estacionamiento:</b> {req.data[0].m2Estacionamiento}</p>
+                </div>
+            </div>
 
-                    <div className="grid grid-cols-2 grid-rows-3 gap-4 col-start-7 row-start-1 col-span-6 row-span-1">
-                        <div className="bg-slate-600 rounded-xl col-start-1 col-span-3 row-span-3 bg-cover bg-center"
-                            style={{ backgroundImage: `url(${req.data[0].interior})` }}
-                            onClick={() => handleModal(req.data[0].interior)}
-                        >
-                        </div>
+            <div className={`md:h-[97.5%] md:w-[50%] flex flex-col gap-4`}>
+                <div className="relative md:max-w-1/2">
+                    <img className='rounded-lg h-full w-full object-cover' src={req.data[0].plano} alt="" />
+                </div>
+                
+                <div className="flex bg-cyan-600 h-full">
+                    <div className="w-1/2 md:w-1/4 flex-1">
+                        <img className="h-full w-full object-cover object-center" src={req.data[0].bodega} alt="" />
                     </div>
-                    <div className="grid grid-cols-2 grid-rows-3 gap-4 col-start-7 row-start-2 col-span-6 row-span-2">
-                        <div className="bg-slate-600 rounded-xl col-start-1 col-span-3 row-span-3 bg-cover bg-center"
-                            style={{ backgroundImage: `url(${req.data[0].bodega})` }}
-                            onClick={() => handleModal(req.data[0].bodega)}
-                        >
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-2 grid-rows-3gap-4 col-start-1 row-start-2 col-span-6 row-span-2">
-                        <div className="bg-slate-600 rounded-xl col-start-1 col-span-3 row-span-3 bg-cover bg-center"
-                            style={{ backgroundImage: `url(${req.data[0].plano})` }}
-                            onClick={() => handleModal(req.data[0].plano)}
-                        >
-                        </div>
+                    <div className="w-1/2 md:w-1/4 flex-1">
+                        <img className="h-full w-full object-cover object-center" src={req.data[0].estacionamiento} alt="" />
                     </div>
                 </div>
-                {showModal ? (
-                    <div className="grid transition-all place-items-center h-screen w-screen absolute z-[999999] overflow-x-hidden overflow-y-auto inset-0 outline-none focus:outline-none bg-gray-900">
-                        <div id="menu" className="w-[90%] h-[90%]">
-                            <div className="w-96 md:w-full md:h-full dark:bg-gray-800 relative flex flex-col justify-center items-center bg-gray-900 py-16 px-4 md:px-24 xl:pt-24 xl:px-36">
-                                <div role="banner">
-                                    <img src={modal} alt="" className='h-full pb-6' />
-                                </div>
-                                <button onClick={closeModal} className="text-gray-400 absolute top-8 right-8 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800" aria-label="close">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M18 6L6 18" stroke="currentColor" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
-                                        <path d="M6 6L18 18" stroke="currentColor" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                ) : null}
             </div>
-        </>
-
+        </div>
     )
 }
 
 export default Architecture
+
+/*
+<div className="relative w-52 max-h-full md:h-72 md:w-72 bg-slate-600 rounded-lg overflow-hidden">
+<img className="absolute top-0 left-0 w-full h-full object-cover z-0" src={req.data[0].bodega} alt="" />
+</div>
+<div className="relative w-52 md:h-72 md:w-72 bg-slate-600 rounded-lg overflow-hidden">
+<img className="absolute top-0 left-0 w-full h-full object-cover z-0" src={req.data[0].interior} alt="" />
+</div>
+*/

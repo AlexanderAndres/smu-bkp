@@ -6,6 +6,9 @@ import { fetchMarkers } from '../thunks/fetchMarkers';
 const initialState = {
     info: {},
     selectedFormat: '',
+    selectedEvent: '',
+    selectedGerente: '',
+    selectedSubGerente: '',
     selectedJefeSuper: '',
     selectedSuper: '',
     selectedAdmin: '',
@@ -20,29 +23,32 @@ export const localSlice = createSlice({
         setInfo: (state, action) => {
             state.info = action.payload;
         },
-        setLocalsLoggout: (state) => {
-            state.locals = []
-            state.geoJson = {}
-            state.arquitectura = {}
-            state.fire = {}
-        },
+        setLocalsLoggout: () => initialState,
         setSelectedFormat: (state, action) => {
-            console.log('[Action payload]', action.payload)
             const newValue = action.payload === '<empty string>' ? '' : action.payload;
             state.selectedFormat = newValue
         },
+        setSelectedEvent: (state, action) => {
+            const newValue = action.payload === '<empty string>' ? '' : action.payload;
+            state.selectedEvent = newValue
+        },
+        setSelectedGerente: (state, action) => {
+            const newValue = action.payload === '<empty string>' ? '' : action.payload;
+            state.selectedGerente = newValue
+        },
+        setSelectedSubGerente: (state, action) => {
+            const newValue = action.payload === '<empty string>' ? '' : action.payload;
+            state.selectedSubGerente = newValue
+        },
         setSelectedJefeSuper: (state, action) => {
-            console.log('[Action payload]', action.payload)
             const newValue = action.payload === '<empty string>' ? '' : action.payload;
             state.selectedJefeSuper = newValue
         },
         setSelectedSuper: (state, action) => {
-            console.log('[Action payload]', action.payload)
             const newValue = action.payload === '<empty string>' ? '' : action.payload;
             state.selectedSuper = newValue
         },
         setSelectedAdmin: (state, action) => {
-            console.log('[Action payload]', action.payload)
             const newValue = action.payload === '<empty string>' ? '' : action.payload;
             state.selectedAdmin = newValue
         },
@@ -62,15 +68,6 @@ export const localSlice = createSlice({
     },
 })
 
-export const filterGeoJson = ({ user, format }) => (dispatch) => {
-    console.log('User:', user, 'Format:', format)
-    //dispatch(setSelectedFormat(format));
-    axios.get(`https://smu-api.herokuapp.com/api/local/rut/${user}`).then((resp) => {
-        console.log('Response from filter:', resp.data.data)
-        //console.log('Response from filter: alvi', resp.data.data.filter((obj) => obj.localType === format))
-    });
-};
-
-export const { setInfo, setLocalsLoggout, setSelectedFormat, setSelectedJefeSuper, setSelectedSuper, setSelectedAdmin } = localSlice.actions
+export const { setInfo, setLocalsLoggout, setSelectedFormat, setSelectedEvent, setSelectedGerente, setSelectedSubGerente, setSelectedJefeSuper, setSelectedSuper, setSelectedAdmin } = localSlice.actions
 
 export default localSlice.reducer

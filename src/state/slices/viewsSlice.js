@@ -26,21 +26,7 @@ export const viewsSlice = createSlice({
         setLoading: (state, action) => {
             state.loading = action.payload
         },
-        setViewsLogout: (state) => {
-            state.local = {}
-            state.events = {}
-            state.arquitectura = {}
-            state.incendios = {}
-            state.mantencion = {}
-            state.iluminacion = {}
-            state.cubierta = {}
-            state.climatizacion = {}
-            state.frio_alimentario = {}
-            state.cortina_metalica = {}
-            state.sistema_electrico = {}
-            state.generacion_electrica = {}
-            state.gases_refrigerantes = {}
-        }
+        setViewsLogout: () => initialState
     },
     extraReducers: (builder) => {
         builder
@@ -84,6 +70,9 @@ export const viewsSlice = createSlice({
             .addCase(fetchCortina.fulfilled, (state, action) => {
                 state.cortina_metalica = action.payload
             })
+            .addCase(editFoodCooling.fulfilled, (state, action) => {
+                state.frio_alimentario = { ...state.events }
+            })
         /*
         .addCase(fetchLocalClimatizacion.fulfilled, (state, action) => {
             state.climatizacion = action.payload
@@ -97,9 +86,10 @@ export const { setMode, setLogin, setViewsLogout, setLoading, setLocals } = view
 export default viewsSlice.reducer
 
 export const fetchLocal = createAsyncThunk('local/getLocal', async (local) => {
+    console.log('Aquí está el fetch')
     const controller = loadAbort
     const response = await axios.get(`https://smu-api.herokuapp.com/api/local/${local}`, { signal: controller.signal }, controller).then((data) => {
-        //console.log('From fetch GetLocal', data.data)
+        console.log('From fetch GetLocal', data.data)
         return data.data
     }).catch((err) => {
         console.log(err)
@@ -108,7 +98,7 @@ export const fetchLocal = createAsyncThunk('local/getLocal', async (local) => {
 })
 export const fetchLocalEvents = createAsyncThunk('local/getLocalEvents', async (local) => {
     const response = await axios.get(`https://smu-api.herokuapp.com/api/alert/${local}`).then((data) => {
-        //console.log('From fetchLocalEvents', data.data)
+        console.log('From fetchLocal Events', data.data)
         return data.data
     }).catch((err) => {
         console.log(err)
@@ -126,33 +116,51 @@ export const closeLocalEvents = createAsyncThunk('local/closeEvent', async (data
     })
     return response
 })
-export const openLocalEvent = createAsyncThunk('local/openEvent', async (data) => {
-    const { ceco, type_id, estadoLocal_id, estado, descripcion, personalLesionado, intentoRobo, robo, detenidos, danos } = data
-    //console.log('Contenido DATA', data)
-    //console.log('Form Data', formData)
-    const formData = new FormData();
 
-    formData.append('ceco', ceco);
-    formData.append('type_id', type_id);
-    formData.append('estadoLocal_id', estadoLocal_id);
-    formData.append('estado', estado);
-    formData.append('description', descripcion);
-    formData.append('personalLesionado', personalLesionado);
-    formData.append('intentoRobo', intentoRobo);
-    formData.append('robo', robo);
-    formData.append('detenidos', detenidos);
-    formData.append('danos', danos);
-
-    const response = await axios.post(`https://smu-api.herokuapp.com/api/alert`, formData, {
-        Headers: { "Content-Type": "multipart/form-data" }
-    }).then((data) => {
-        console.log('POST alert', data.data)
+export const editFoodCooling = createAsyncThunk('foodCooling/edit', async (data) => {
+    console.log('Data in slice:', 'ID:', data.id, 'DATA:', data.info)
+    const response = await axios.put(`https://smu-api.herokuapp.com/api/view7/upd/${data.id}`, data.info).then((data) => {
+        //console.log('Get close alert', data.data)
         return data.data
     }).catch((err) => {
         console.log(err)
     })
     return response
 })
+
+export const openLocalEvent = createAsyncThunk('local/openEvent', async (EventDetailObject) => {
+    const headers = {
+        "Content-Type": "multipart/form-data"
+    };
+
+    const formData = new FormData();
+
+    for (let key in EventDetailObject) {
+        const value = EventDetailObject[key];
+        if (Array.isArray(value) || typeof value === "object") {
+            formData.append(key, JSON.stringify(value));
+        } else {
+            formData.append(key, value);
+        }
+    }
+
+    console.log('[FormData]:', formData)
+
+    const response = await axios.post(`https://smu-api.herokuapp.com/api/alert`, EventDetailObject, { headers })
+        .then((data) => {
+            console.log('POST alert', data.data);
+            return data.data;
+        }).catch((err) => {
+            console.log(err);
+        });
+
+    return response;
+});
+
+
+
+
+
 export const fetchLocalArc = createAsyncThunk('local/getArc', async (local) => {
     const response = await axios.get(`https://smu-api.herokuapp.com/api/view1/${local}`).then((data) => {
         console.log('From fetch arc', data.data)
@@ -225,7 +233,7 @@ export const fetchLocalClimat = createAsyncThunk('local/getClim', async (local) 
 )
 export const fetchLocalFoodCooling = createAsyncThunk('local/getFoofCoo', async (local) => {
     const response = await axios.get(`https://smu-api.herokuapp.com/api/view7/${local}`).then((data) => {
-        //console.log('From fetch arc', data.data)
+        console.log('[From food cooling]', data.data)
         return data.data
     }).catch((err) => {
         console.log(err)

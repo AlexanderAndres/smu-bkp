@@ -1,0 +1,74 @@
+{
+        "1": {
+            "checkboxes": [
+                { "id": 1, "text": "Olor a quemado","value": 1,"name": "olorQuemado", "defaultValue": 0 },
+                { "id": 2, "text": "Llama latente","value": 1,"name": "llamaLatente", "defaultValue": 0 },
+                { "id": 3, "text": "Alarma de humo activada","value": 1,"name": "alarmaHumo", "defaultValue": 0 },
+                { "id": 4, "text": "Se llamó a bomberos","value": 1,"name": "avisoBomberos", "defaultValue": 0 }
+            ],
+            "selectors": [
+                {
+                    "id": 5,"name": "lugar_id", "placeholder": "Lugar afectado", "defaultValue": 0, "options": [
+                        {"value": "", "text": "Selecciona lugar afectado" },
+                        {"value": 1, "text": "Sala de ventas" },
+                        {"value": 2, "text": "Recepción" },
+                        {"value": 3, "text": "Baños" },
+                        {"value": 4, "text": "Oficinas" },
+                        {"value": 5, "text": "Cubierta" },
+                        {"value": 6, "text": "Sala de maquinas" }
+                    ]
+                }, {
+                    "id": 6,"name": "estadoLocal_id", "placeholder": "Estado del local", "defaultValue": 0, "options": [
+                        {"value": "", "text": "Selecciona el estado del local" },
+                        {"value": 1, "text": "Abierto" },
+                        {"value": 2, "text": "Cerrado" },
+                        {"value": 3, "text": "Fuera de servicio" },
+                        {"value": 4, "text": "Cerrado permanentemente" }
+                    ]
+                }
+            ]
+        },
+        "3": {
+            "checkboxes": [
+            ],
+            "selectors": [
+                {
+                    "id": 5,"name": "personal", "placeholder": "Personal de equipo", "defaultValue": 0, "options": [
+                        {"value": "", "text": "Selecciona el tipo de personal afectado" },
+                        {"value": 1, "text": "Personal de equipo interno" },
+                        {"value": 2, "text": "Personal de proveedor" }
+                    ]
+                },
+                {
+                    "id": 6,"name": "conciente", "placeholder": "Estado del/los pascientes", "defaultValue": 0, "options": [
+                        {"value": "", "text": "Selecciona el estado del/los pascientes" },
+                        {"value": 1, "text": "Conciente" },
+                        {"value": 2, "text": "Inconciente" }
+                    ]
+                },
+                {
+                    "id": 7,"name": "altura", "placeholder": "Rango de altura", "defaultValue": 0, "options": [
+                        {"value": "", "text": "Selecciona rango de altura" },
+                        {"value": 1, "text": "De 1,8mts a 5mts" },
+                        {"value": 2, "text": "De 5mts a 10mts" },
+                        {"value": 3, "text": "Sobre 10mts" }
+                    ]
+                },
+                {
+                    "id": 8,"name": "fractura", "placeholder": "¿Existe fractura?", "defaultValue": 0, "options": [
+                        {"value": "", "text": "Indica si existe o no fractura" },
+                        {"value": 1, "text": "Presenta fractura" },
+                        {"value": 2, "text": "No presenta fractura" }
+                    ]
+                },
+                {
+                    "id": 9,"name": "autorizado", "placeholder": "¿El trabajo estaba autorizado?", "defaultValue": 0, "options": [
+                        {"value": "", "text": "Selecciona si el trabajo fue autorizado" },
+                        {"value": 1, "text": "Estaba autorizado" },
+                        {"value": 2, "text": "No estaba autorizado" }
+                    ]
+                }
+
+            ]
+        }
+}

@@ -16,8 +16,10 @@ import ElectricSys from './pages/local/sections/ElectricSys'
 import ElectricGen from './pages/local/sections/ElectricGen'
 import Gases from './pages/local/sections/Gases'
 import SendAlert from './pages/SendAlert'
+import AddEvent from './pages/AddEvent'
 import Mail from './pages/Mail'
 import NewSidebar from './components/NewSidebar'
+import EditFoodCooling from './components/EditFoodCooling'
 
 function App() {
 
@@ -29,6 +31,7 @@ function App() {
           <Route path='/mail' element={<Mail />} />
           <Route path='/app' element={<Home />} />
           <Route path='/sendEvent' element={<SendAlert />} />
+          <Route path='/editFoodCooling' element={<EditFoodCooling />} />
           <Route path='/sidebar' element={<NewSidebar />} />
           <Route path='/local/:ceco/' element={<LocalLayout />} >
             <Route index element={<Events />} />

@@ -7,9 +7,18 @@ module.exports = {
     "./node_modules/flowbite/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        fastPulse: 'fastPulse .8s ease-in-out infinite',
+      },
+      keyframes: {
+        fastPulse: {
+          '0%, 100': { opacity: 1 },
+          '50%': { opacity: .6 },
+        }
+      }
+    },
   },
   plugins: [
-    require('flowbite/plugin')
   ],
 }

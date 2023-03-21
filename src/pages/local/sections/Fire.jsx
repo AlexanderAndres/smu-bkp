@@ -42,7 +42,41 @@ const Fire = () => {
     }
 
     return (
-        <>
+        <div className={`min-h-full h-full w-full pl-24 pr-4 pt-4 md:pl-28 md:pt-5 flex flex-col md:flex-row gap-4`}>
+            <div className={`relative h-[50%] md:h-[97.5%] md:w-[50%] bg-cyan-600 rounded-lg overflow-hidden`}>
+                <div className="h-full w-full">
+                    <img className="absolute top-0 left-0 w-full h-full object-cover z-0" src={data.data[0].estanque} alt="" />
+                </div>
+                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-800 to-slate-900 opacity-40 z-10"></div>
+                <h2 className="absolute z-20 p-4 text-3xl font-semibold uppercase">Sistema de extincion de incendio</h2>
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white z-20">
+                    <p className=''><b>Autonomia</b> {data.data[0].tiempoAutonomia}</p>
+                    <p className=''><b>Capacidad de estanque</b> {data.data[0].capacidadEstanque}</p>
+                    <p className=''><b>Cantidad de extintores</b> {data.data[0].cantidadTipoExtintores}</p>
+                    <p className=''><b>Gabinetes</b> {data.data[0].gabinetes}</p>
+                </div>
+            </div>
+
+            <div className={`md:h-[97.5%] md:w-[50%] flex flex-col gap-4`}>
+                <div className="relative md:max-w-1/2">
+                    <img className='rounded-lg h-full w-full object-cover' src={data.data[0].planoExtintores} alt="" />
+                </div>
+                {/* Las imagenes dentro de este contenedor */}
+                <div className="flex bg-cyan-600 h-full">
+                    <div className="w-1/2 md:w-1/4 flex-1">
+                        <img className="h-full w-full object-cover object-center" src={data.data[0].rociadores} alt="" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Fire
+
+
+/*
+<>
             <div className='w-full min-h-screen grid place-items-center'>
                 <div className="grid grid-cols-12 grid-rows-12 rounded-xl bg-slate-700 h-[90%] gap-2 w-[95%] p-6 drop-shadow-lg shadow-white">
                     <div className='rounded-xl h-40 col-span-6 row-span-1 col-start-1 row-start-1 bg-slate-100 text-gray-900 first-line p-5'>
@@ -93,7 +127,4 @@ const Fire = () => {
                 ) : null}
             </div>
         </>
-    )
-}
-
-export default Fire
+*/

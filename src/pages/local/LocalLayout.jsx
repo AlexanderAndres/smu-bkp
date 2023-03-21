@@ -30,9 +30,9 @@ const LocalLayout = () => {
     return (
         <>
             <Loader show={loading ? true : false} />
-            <section className='flex bg-gray-900'>
+            <section className='flex'>
                 <NewSidebar />
-                <div className='h-full flex-1 pl-20'>
+                <div className='min-h-screen w-screen'>
                     {dataFetched ? <Outlet className='' ceco={ceco} /> : null}
                 </div>
             </section>

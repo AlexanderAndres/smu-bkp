@@ -26,20 +26,12 @@ const Map = () => {
   const navigate = useNavigate();
   const mapContainer = useRef(null);
 
-  // Local state
-  const [dataFetched, setDataFetched] = useState(true);
-
+  //const [dataFetched, setDataFetched] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  /*
-  const filterValue1 = useSelector(state => state.locals.selectedFormat)
-  const filterValue2 = useSelector(state => state.locals.selectedJefeSuper)
-  const filterValue3 = useSelector(state => state.locals.selectedSuper)
-  const filterValue4 = useSelector(state => state.locals.selectedAdmin)
-  */
 
   const filters = {
     localType: useSelector(state => state.locals.selectedFormat),
+    events: useSelector(state => state.locals.selectedEvent),
     jefeSuper: useSelector(state => state.locals.selectedJefeSuper),
     super: useSelector(state => state.locals.selectedSuper),
     admin: useSelector(state => state.locals.selectedAdmin)
@@ -47,7 +39,6 @@ const Map = () => {
 
   const user = useSelector((state) => {
     if (state.auth) {
-      console.log('State in newMap', state.auth)
       return state.auth
     }
   })
@@ -56,26 +47,12 @@ const Map = () => {
     if (!user.rut) {
       navigate('/')
     }
+    
     return () => { }
   }, [])
 
-  // useEffect(() => {
-  //   if (!dataFetched) {
-  //     //console.log('RUT SEND TO fetch markers', user.rut)
-  //     dispatch(
-  //       fetchMarkers(user.rut)
-  //     ).then((data) => {
-  //       //console.log('Data from fetch markers', data)
-  //       dispatch(setInfo(data.payload));
-  //     })
-  //     setDataFetched(true)
-  //   }
-  // }, [dispatch, dataFetched, markers]);
-
   useEffect(() => {
-    //console.log('UseEffect')
-    if (dataFetched) {
-      //console.log('Markers:', markers)
+    if (markers) {
       const jump = markers.data.features.find((elem) => elem)
       const map = new mapboxgl.Map({
         container: mapContainer.current,
@@ -84,13 +61,10 @@ const Map = () => {
         zoom: 14
       })
 
-      console.log('[Filters]:', filters)
-
-      //const filteredFeatures = markers.data.features.filter(feature => feature.properties.localType === filteredFeatures || filteredFeatures === '');
       const filteredFeatures = markers.data.features.filter((feature) => {
-        // Check if feature meets all filter criteria
         return (
           (filters.localType === "" || feature.properties.localType === filters.localType) &&
+          (filters.events === "" || feature.properties.alert === parseInt(filters.events)) &&
           (filters.jefeSuper === "" || feature.properties.jefeSuper_rut === filters.jefeSuper) &&
           (filters.super === "" || feature.properties.supervisor_rut === filters.super) &&
           (filters.admin === "" || feature.properties.administrador_rut === filters.admin)
