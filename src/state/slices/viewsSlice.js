@@ -146,7 +146,7 @@ export const openLocalEvent = createAsyncThunk('local/openEvent', async (EventDe
 
     console.log('[FormData]:', formData)
 
-    const response = await axios.post(`https://smu-api.herokuapp.com/api/alert`, EventDetailObject, { headers })
+    const response = await axios.post(`https://smu-api.herokuapp.com/api/alert`, formData, { headers })
         .then((data) => {
             console.log('POST alert', data.data);
             return data.data;

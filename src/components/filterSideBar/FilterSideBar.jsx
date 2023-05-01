@@ -41,10 +41,15 @@ const FilterSideBar = () => {
         navigate('/')
     }
 
+    const handleFastEvent = () => {
+        console.log('[To fast event]')
+        navigate('/fastEvent')
+    }
+
     const switchRole = (elem) => {
         switch (elem) {
             case 1:
-                return 'Getente'
+                return 'Gerente'
             case 2:
                 return 'Sub Gerente'
             case 3:
@@ -58,9 +63,8 @@ const FilterSideBar = () => {
 
     return (
         <>
-            <div className='z-50 absolute right-0 h-[10vh] w-screen md:h-screen md:w-[26vw]'>
-                <div className={`flex rounded-lg bg-slate-900 text-slate-300 w-[90vw] md:w-80 m-5 transition-all duration-500
-                    `}>
+            <div className='z-50 absolute right-0 h-[10vh] w-screen md:h-screen md:w-[26vw] 2xl:w-[20vw]'>
+                <div className={`flex rounded-lg bg-slate-900 text-slate-300 w-[90vw] md:w-80 m-5 transition-all duration-500`}>
                     <div className="w-[70%] pl-5 py-2 uppercase cursor-pointer text-sm flex gap-5 justify-evenly items-center">
                         <div className=''>
                             <SmuLogo />
@@ -186,7 +190,7 @@ const FilterSideBar = () => {
                         </nav>
                     </div>
                 )}
-                <a onClick={hanndleLoggout}
+                <a onClick={handleFastEvent}
                     className={`z-50 hidden rounded-lg md:grid hover:cursor-pointer place-items-center h-12 bg-slate-700 hover:bg-red-600 text-red-100 transition-colors
                     w-[90vw]
                     md:w-80
@@ -206,7 +210,7 @@ const FilterSideBar = () => {
                     Cerrar Sesion
                 </a>
             </div>
-            <a onClick={hanndleLoggout}
+            <a onClick={handleFastEvent}
                 className={`z-50 md:hidden absolute bottom-0 left-0 rounded-lg hover:cursor-pointer grid place-items-center h-12 bg-slate-700 hover:bg-red-600 text-red-100 transition-all ease-in-out
                         w-[50vw]
                         md:w-80

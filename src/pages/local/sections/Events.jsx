@@ -6,10 +6,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 import PageLoader from '../../../components/loader/PageLoader'
 import { closeLocalEvents, fetchLocalEvents } from '../../../state/slices/viewsSlice'
 import { BiLoaderAlt } from 'react-icons/bi';
+import { fetchMarkers } from '../../../state/thunks/fetchMarkers'
 
 const Events = () => {
   const { ceco } = useSelector(state => state.views.local.data[0])
-  const events = useSelector(state => state.views.events.data)
+  const events = useSelector(state => state.views.events?.data)
+  const userRut = useSelector(state => state.auth.rut);
   const dispatch = useDispatch()
 
   const [dataFetched, setDataFetched] = useState(false)
@@ -38,9 +40,11 @@ const Events = () => {
       case 7:
         return 'Vandalísmo'
       case 8:
-        return 'Fuga de gas'
+        return 'Fuga de gas/olor a gas'
       case 9:
-        return 'Filtración de agua'
+        return 'Filtración de agua mayor'
+      case 10:
+        return 'Problemas por lluvia'
     }
   }
 
@@ -49,21 +53,23 @@ const Events = () => {
       case 1:
         return { bg: 'bg-red-600', ctr: 'bg-red-800' }
       case 2:
-        return { bg: 'bg-blue-600', ctr: 'bg-blue-900' }
+        return { bg: 'bg-blue-400', ctr: 'bg-blue-700' }
       case 3:
         return { bg: 'bg-orange-500', ctr: 'bg-orange-800' }
       case 4:
-        return { bg: 'bg-orange-500', ctr: 'bg-orange-800' }
-      case 5:
-        return { bg: 'bg-orange-500', ctr: 'bg-orange-800' }
-      case 6:
-        return { bg: 'bg-orange-500', ctr: 'bg-orange-800' }
-      case 7:
-        return { bg: 'bg-orange-500', ctr: 'bg-orange-800' }
-      case 8:
         return { bg: 'bg-purple-500', ctr: 'bg-purple-800' }
+      case 5:
+        return { bg: 'bg-indigo-500', ctr: 'bg-indigo-800' }
+      case 6:
+        return { bg: 'bg-green-500', ctr: 'bg-green-800' }
+      case 7:
+        return { bg: 'bg-pink-600', ctr: 'bg-pink-800' }
+      case 8:
+        return { bg: 'bg-red-300', ctr: 'bg-red-600' }
       case 9:
-        return { bg: 'bg-orange-500', ctr: 'bg-orange-800' }
+        return { bg: 'bg-indigo-700', ctr: 'bg-indigo-900' }
+      case 10:
+        return { bg: 'bg-blue-600', ctr: 'bg-blue-800' }
 
     }
   }
@@ -102,6 +108,7 @@ const Events = () => {
     setSelectedEventId(id); // actualizar el ID del evento seleccionado
     dispatch(closeLocalEvents({ id, ceco })).then(() => {
       dispatch(fetchLocalEvents(ceco));
+      dispatch(fetchMarkers(userRut))
     })
   };
 
@@ -129,8 +136,8 @@ const Events = () => {
   return (
     <>
       <PageLoader show={loading ? true : false} />
-      <div className={`min-h-full h-full w-full pl-24 pr-4 py-8 md:pl-28 md:pt-5 flex flex-col`}>
-        <h2 className='text-4xl w-full mt-5 mb-8'>Eventos</h2>
+      <div className={`min-h-full h-full w-full pl-24 pr-4 py-8 md:pl-36 md:pt-5 flex flex-col`}>
+        <h2 className='text-4xl w-full mt-5 mb-8'>Eventos latentes</h2>
         <div onClick={handleHoverInfo} className={`fixed top-0 right-0 py-2 z-50 m-5 cursor-pointer h-auto ${hoverInfo ? 'rounded-sm w-auto px-6 bg-slate-700' : 'rounded-full h-10 w-10 grid place-items-center bg-orange-400'}`}>
           {hoverInfo ?
             (
@@ -253,6 +260,11 @@ const Events = () => {
               </div>
             )
           })
+          }
+          {(events && events.length === 0) ? 
+            (<p> No existen eventos para el local </p>)
+            :
+            ('')
           }
         </div>
       </div>

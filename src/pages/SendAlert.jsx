@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import PageLoader from '../components/loader/PageLoader'
 import { openLocalEvent } from '../state/slices/viewsSlice'
+import {items} from "./EventTypes"
 
 const SendAlert = () => {
     const [checkboxValues, setCheckboxValues] = useState({})
@@ -21,92 +22,6 @@ const SendAlert = () => {
         danos: 0,
         estadoLocal_id: 0
     })
-
-    const items = {
-        1: {
-            checkboxes: [
-                { id: 1, text: 'Olor a quemado', value: 1, name: 'olorQuemado', defaultValue: 0 },
-                { id: 2, text: 'Llama latente', value: 1, name: 'llamaLatente', defaultValue: 0 },
-                { id: 3, text: 'Alarma de humo activada', value: 1, name: 'alarmaHumo', defaultValue: 0 },
-                { id: 4, text: 'Se llamó a bomberos', value: 1, name: 'avisoBomberos', defaultValue: 0 },
-            ],
-            selectors: [
-                {
-                    id: 5, name: 'lugar_id', placeholder: 'Lugar afectado', defaultValue: 0, options: [
-                        { value: '', text: 'Selecciona lugar afectado' },
-                        { value: 1, text: 'Sala de ventas' },
-                        { value: 2, text: 'Recepción' },
-                        { value: 3, text: 'Baños' },
-                        { value: 4, text: 'Oficinas' },
-                        { value: 5, text: 'Cubierta' },
-                        { value: 6, text: 'Sala de maquinas' },
-                    ]
-                }, {
-                    id: 6, name: 'estadoLocal_id', placeholder: 'Estado del local', defaultValue: 0, options: [
-                        { value: '', text: 'Selecciona el estado del local' },
-                        { value: 1, text: 'Abierto' },
-                        { value: 2, text: 'Cerrado' },
-                        { value: 3, text: 'Fuera de servicio' },
-                        { value: 4, text: 'Cerrado permanentemente' },
-                    ]
-                },
-            ],
-        },
-        3: {
-            checkboxes: [
-                { id: 1, text: '¿Se avisó a urgencias?', value: 1, name: 'avisoUrgencias', defaultValue: 0 },
-            ],
-            selectors: [
-                {
-                    id: 5, name: 'personal', placeholder: 'Personal de equipo', defaultValue: 0, options: [
-                        { value: '', text: 'Selecciona el tipo de personal afectado' },
-                        { value: 1, text: 'Personal de equipo interno' },
-                        { value: 2, text: 'Personal de proveedor' },
-                    ]
-                },
-                {
-                    id: 6, name: 'consiente', placeholder: 'Estado del/los pacientes', defaultValue: 0, options: [
-                        { value: '', text: 'Selecciona el estado del/los pacientes' },
-                        { value: 3, text: 'Conciente' },
-                        { value: 4, text: 'Inconciente' },
-                    ]
-                },
-                {
-                    id: 7, name: 'altura', placeholder: 'Rango de altura', defaultValue: 0, options: [
-                        { value: '', text: 'Selecciona rango de altura' },
-                        { value: 5, text: 'De 1,8mts a 5mts' },
-                        { value: 6, text: 'De 5mts a 10mts' },
-                        { value: 7, text: 'Sobre 10mts' },
-                    ]
-                },
-                {
-                    id: 8, name: 'fractura', placeholder: '¿Existe fractura?', defaultValue: 0, options: [
-                        { value: '', text: 'Indica si existe o no fractura' },
-                        { value: 8, text: 'Presenta fractura' },
-                        { value: 9, text: 'No presenta fractura' },
-                    ]
-                },
-                {
-                    id: 9, name: 'autorizado', placeholder: '¿El trabajo estaba autorizado?', defaultValue: 0, options: [
-                        { value: '', text: 'Selecciona si el trabajo fue autorizado' },
-                        { value: 10, text: 'Estaba autorizado' },
-                        { value: 11, text: 'No estaba autorizado' },
-                    ]
-                }, {
-                    id: 10, name: 'estadoLocal_id', placeholder: 'Estado del local', defaultValue: 0, options: [
-                        { value: '', text: 'Selecciona el estado del local' },
-                        { value: 1, text: 'Abierto' },
-                        { value: 2, text: 'Cerrado' },
-                        { value: 3, text: 'Fuera de servicio' },
-                        { value: 4, text: 'Cerrado permanentemente' },
-                    ]
-                },
-
-            ],
-        }
-    }
-
-
 
     const [loading, setLoading] = useState(true)
     const [ret, setRet] = useState({})
@@ -240,7 +155,7 @@ const SendAlert = () => {
                     </select>
 
                     <span className={`pt-3 text-lg font-medium text-white`}>Detalles del Evento</span>
-                    {/* Aquí necesito los checkbox y selectors */}
+                    {/* Checkbox y selectors */}
                     <div className={``}>
                         {checkboxes.map((checkbox) => (
                             <div key={checkbox.id} className={`flex items-center text-sm text-white my-2`}>
@@ -306,6 +221,31 @@ const SendAlert = () => {
                         }}
                     />
                     <p>{500 - count}</p>
+
+                    <div className={`py-2`}>
+                        <label htmlFor={"estadoLocal_id"}> </label>
+                        <select
+                            className={`bg-gray-50 border mt-2 border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white`}
+                            name={"estadoLocal_id"}
+                            value={formState.selectors["estadoLocal_id"] || 0}
+                            onChange={(e) => {
+                                const { name, value } = e.target;
+                                setFormState((prevState) => ({
+                                    ...prevState,
+                                    selectors: {
+                                        ...prevState.selectors,
+                                        [name]: value,
+                                    },
+                                }));
+                            }}
+                        >
+                            <option value=""> Selecciona el estado del local </option>
+                            <option value="1"> Abierto </option>
+                            <option value="2"> Cerrado </option>
+                            <option value="3"> Fuera de servicio </option>
+                        </select>
+                    </div>
+
                     <button onSubmit={handleSubmit} className={`active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-4 text-gray-400 bg-slate-700 rounded-xl font-bold text-lg hover:bg-red-900`}> Enviar </button>
                     <button
                         onClick={handleNav}

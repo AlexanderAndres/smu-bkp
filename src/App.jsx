@@ -20,6 +20,7 @@ import AddEvent from './pages/AddEvent'
 import Mail from './pages/Mail'
 import NewSidebar from './components/NewSidebar'
 import EditFoodCooling from './components/EditFoodCooling'
+import FastAlert from './pages/FastAlert'
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
           <Route path='/mail' element={<Mail />} />
           <Route path='/app' element={<Home />} />
           <Route path='/sendEvent' element={<SendAlert />} />
+          <Route path='/fastEvent' element={<FastAlert />} />
           <Route path='/editFoodCooling' element={<EditFoodCooling />} />
           <Route path='/sidebar' element={<NewSidebar />} />
           <Route path='/local/:ceco/' element={<LocalLayout />} >
