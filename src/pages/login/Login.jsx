@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { setLogin } from "../../state/slices/authSlice";
 import { setInfo } from "../../state/slices/localsSlice";
 import { fetchMarkers } from "../../state/thunks/fetchMarkers";
+import { BiLoaderAlt } from "react-icons/bi";
 
 const Login = () => {
   const [error, setError] = useState("");
@@ -13,6 +14,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,6 +37,7 @@ const Login = () => {
   };
 
   const login = async (user) => {
+    setLoading(true);
     await axios
       .get(
         `https://smu-api.herokuapp.com/api/login/${user.email}/${user.password}`
@@ -57,18 +60,20 @@ const Login = () => {
               "[THEN === 5]",
               resp.payload.geoJson.data.features[0].properties.ceco
             );
+            setLoading(false);
             navigate(
               "/local/" + resp.payload.geoJson.data.features[0].properties.ceco
             );
           } else {
             navigate("/app");
+            setLoading(false);
             //console.log('[THEN !== 5]')
           }
         });
       })
       .catch((err) => {
         setError(err);
-
+        setLoading(false);
         setTimeout(() => {
           setError("");
         }, 2500);
@@ -109,45 +114,45 @@ const Login = () => {
         </div>
       ) : null}
 
+      <div className="sm:w-[75vw] md:w-[38vw] mx-auto">
+        <div className="relative group">
+          <div className="absolute -inset-1 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg blur-md opacity-50 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
 
-        <div className="sm:w-[75vw] md:w-[38vw] mx-auto">
-          <div className="relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg blur-md opacity-50 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+          <div className="relative h-[55vh] px-12 py-12 bg-slate-950 ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-center space-x-6">
+            <div className="space-y-2 text-slate-200 w-full flex flex-col justify-evenly">
+              <div className="flex flex-col">
+                <label className="text-lg font-medium">Email</label>
+                <input
+                  name="email"
+                  onChange={handleChange}
+                  className="w-full border-b border-gray-700 p-4 mt-1 bg-transparent"
+                  placeholder="Enter your email"
+                />
+              </div>
+              <div className="flex flex-col mt-4">
+                <label className="text-lg font-medium">Password</label>
+                <input
+                  name="password"
+                  onChange={handleChange}
+                  className="w-full border-b border-gray-700 p-4 mt-1 bg-transparent"
+                  placeholder="Enter your password"
+                  type={"password"}
+                />
+              </div>
 
-            <div className="relative h-[55vh] px-12 py-12 bg-slate-950 ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-center space-x-6">
-              <div className="space-y-2 text-slate-200 w-full flex flex-col justify-evenly">
-
-                <div className="flex flex-col">
-                  <label className="text-lg font-medium">Email</label>
-                  <input
-                    name="email"
-                    onChange={handleChange}
-                    className="w-full border-b border-gray-700 p-4 mt-1 bg-transparent"
-                    placeholder="Enter your email"
-                  />
-                </div>
-                <div className="flex flex-col mt-4">
-                  <label className="text-lg font-medium">Password</label>
-                  <input
-                    name="password"
-                    onChange={handleChange}
-                    className="w-full border-b border-gray-700 p-4 mt-1 bg-transparent"
-                    placeholder="Enter your password"
-                    type={"password"}
-                  />
-                </div>
-
-                <div className="mt-8 flex flex-col gap-y-4">
-                  <button className="bg-gradient-to-r from-red-600 to-orange-600 py-2 mt-10 text-gray-200 bg-slate-700 rounded-xl font-bold text-lg">
-                    Sign in
-                  </button>
-                </div>
-
+              <div className="mt-8 flex flex-col gap-y-4">
+                <button className="bg-gradient-to-r from-red-600 to-orange-600 py-2 mt-10 text-gray-200 bg-slate-700 rounded-xl font-bold text-lg grid place-items-center">
+                  {loading ? (
+                    <BiLoaderAlt className={`animate-spin h-6 w-6`} />
+                  ) : (
+                    "Login"
+                  )}
+                </button>
               </div>
             </div>
           </div>
         </div>
-        
+      </div>
     </form>
   );
 };
