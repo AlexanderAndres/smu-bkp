@@ -126,7 +126,7 @@ const Sidebar = () => {
     }
     const handleSendAlert = (e) => {
         e.preventDefault();
-        console.log('Handle send alert')
+        //console.log('Handle send alert')
         navigate('/sendAlert')
     }
 

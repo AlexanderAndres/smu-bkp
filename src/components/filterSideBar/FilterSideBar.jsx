@@ -42,7 +42,7 @@ const FilterSideBar = () => {
     }
 
     const handleFastEvent = () => {
-        console.log('[To fast event]')
+        //console.log('[To fast event]')
         navigate('/fastEvent')
     }
 

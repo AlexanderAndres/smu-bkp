@@ -26,7 +26,7 @@ const SteelScreen = () => {
     if (loading || !data) {
         return <Loader show={loading ? true : false} />
     } else {
-        console.log('Datos [fetchCortina]:', data)
+        // console.log('Datos [fetchCortina]:', data)
     }
 
     return (

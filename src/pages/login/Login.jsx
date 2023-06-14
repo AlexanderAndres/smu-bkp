@@ -54,12 +54,12 @@ const Login = () => {
         );
 
         dispatch(fetchMarkers(response.data.rut)).then((resp) => {
-          console.log("[THEN]");
+          // console.log("[THEN]");
           if (response.data.rol === 5) {
-            console.log(
-              "[THEN === 5]",
-              resp.payload.geoJson.data.features[0].properties.ceco
-            );
+            // console.log(
+            //   "[THEN === 5]",
+            //   resp.payload.geoJson.data.features[0].properties.ceco
+            // );
             setLoading(false);
             navigate(
               "/local/" + resp.payload.geoJson.data.features[0].properties.ceco
@@ -82,7 +82,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("[Credentials]:", credentials);
+    // console.log("[Credentials]:", credentials);
     login(credentials);
   };
 

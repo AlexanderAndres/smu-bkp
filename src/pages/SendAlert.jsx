@@ -102,7 +102,7 @@ const SendAlert = () => {
             setTimeout(() => {
                 setRet({})
             }, 2500)
-            console.log('Devuelta:', data.payload.message)
+            // console.log('Devuelta:', data.payload.message)
             setFormState({ type_id: 0, checkboxes: {}, selectors: {}, descripcion: '' });
         }).catch((data) => {
             setTimeout(() => {
@@ -111,7 +111,7 @@ const SendAlert = () => {
             setRet({ type: 0, text: 'Ocurrió un error al crear el evento' })
         })
 
-        console.log('Nuevo Evento', formData);
+        // console.log('Nuevo Evento', formData);
     }
 
     const handleCount = (e) => {

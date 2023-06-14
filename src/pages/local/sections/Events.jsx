@@ -103,7 +103,7 @@ const Events = () => {
   }, [])
 
   const handleCloseAlert = (id, ceco) => {
-    console.log('Data to close event:', id, ceco);
+    // console.log('Data to close event:', id, ceco);
     setLoadClose(true);
     setSelectedEventId(id); // actualizar el ID del evento seleccionado
     dispatch(closeLocalEvents({ id, ceco })).then(() => {
@@ -122,7 +122,7 @@ const Events = () => {
 
   function leftRandomArbitrary(max) {
     const theRandom = Math.floor(Math.random() * max);
-    console.log('[The Random]:', 'left-' + theRandom)
+    // console.log('[The Random]:', 'left-' + theRandom)
     return (' ' + 'left-' + theRandom + ' ');
   }
 
@@ -133,12 +133,16 @@ const Events = () => {
     return fechaToDate
   }
 
+  const handleScroll = (e) => {
+    console.log("Scrolled");
+  };
+
   return (
     <>
       <PageLoader show={loading ? true : false} />
-      <div className={`min-h-full h-full w-full pl-24 pr-4 py-8 md:pl-36 md:pt-5 flex flex-col`}>
+      <div className={`min-h-full h-full w-screen pr-4 py-8 md:pl-36 md:pt-5 flex flex-col bg-neutral-900/95`}>
         <h2 className='text-4xl w-full mt-5 mb-8'>Eventos latentes</h2>
-        <div onClick={handleHoverInfo} className={`fixed top-0 right-0 py-2 z-50 m-5 cursor-pointer h-auto ${hoverInfo ? 'rounded-sm w-auto px-6 bg-slate-700' : 'rounded-full h-10 w-10 grid place-items-center bg-orange-400'}`}>
+        <div onClick={handleHoverInfo} className={`fixed top-20 right-0 py-2 z-50 m-5 cursor-pointer h-auto ${hoverInfo ? 'rounded-sm w-auto px-6 bg-slate-700' : 'rounded-full h-10 w-10 grid place-items-center bg-orange-400'}`}>
           {hoverInfo ?
             (
               <div>

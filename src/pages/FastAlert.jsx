@@ -27,16 +27,16 @@ const FastAlert = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (locals) {
-      console.log(locals);
-    }
-    return () => {};
-  }, [locals]);
+  // useEffect(() => {
+  //   if (locals) {
+  //     console.log(locals);
+  //   }
+  //   return () => {};
+  // }, [locals]);
 
-  useEffect(() => {
-    console.log("[Local selected]", localSelected);
-  }, [localSelected]);
+  // useEffect(() => {
+  //   console.log("[Local selected]", localSelected);
+  // }, [localSelected]);
 
   useEffect(() => {
     axios
@@ -64,7 +64,7 @@ const FastAlert = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log("[Elemente value]:", value);
+    // console.log("[Elemente value]:", value);
 
     setLocalSelected((prevState) => ({
       ...prevState,
@@ -105,7 +105,7 @@ const FastAlert = () => {
     delete formData.checkboxes;
     delete formData.selectors;
 
-    console.log("[DATA]:", formData);
+    // console.log("[DATA]:", formData);
 
     dispatch(openLocalEvent(formData))
       .then((data) => {
@@ -113,7 +113,7 @@ const FastAlert = () => {
         setTimeout(() => {
           setRet({});
         }, 2500);
-        console.log("Devuelta:", data.payload.message);
+        // console.log("Devuelta:", data.payload.message);
         setFormState({
           type_id: 0,
           checkboxes: {},
@@ -128,7 +128,7 @@ const FastAlert = () => {
         setRet({ type: 0, text: "Ocurrió un error al crear el evento" });
       });
 
-    console.log("Nuevo Evento", formData);
+    // console.log("Nuevo Evento", formData);
   };
 
   const handleCount = (e) => {

@@ -55,7 +55,7 @@ const SendAlert = () => {
         }
     }, [formState.eventType]);
 
-    console.log('[FormState]:', formState)
+    //console.log('[FormState]:', formState)
 
     const handleSubmit = e => {
         e.preventDefault()

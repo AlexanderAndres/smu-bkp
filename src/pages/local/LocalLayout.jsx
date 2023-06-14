@@ -1,47 +1,50 @@
-import React, { useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
-import Sidebar from '../../components/sidebar/Sidebar'
-import { useParams } from 'react-router-dom';
-import Loader from '../../components/loader/Loader';
-import { useDispatch } from 'react-redux';
-import { fetchLocal, fetchLocalEvents } from '../../state/slices/viewsSlice';
-import Identificator from '../../components/views/Identificator';
-import NewSidebar from '../../components/sidebar/NewSidebar';
-
+import React, { useEffect, useState } from "react";
+import { Outlet } from "react-router-dom";
+import Sidebar from "../../components/sidebar/Sidebar";
+import { useParams } from "react-router-dom";
+import Loader from "../../components/loader/Loader";
+import { useDispatch } from "react-redux";
+import { fetchLocal, fetchLocalEvents } from "../../state/slices/viewsSlice";
+import Identificator from "../../components/views/Identificator";
+import NewSidebar from "../../components/sidebar/NewSidebar";
+import LocalNavbar from "../../components/navbars/LocalNavbar";
 
 const LocalLayout = () => {
-    const { ceco } = useParams();
-    const [loading, setLoading] = useState(true)
-    const [dataFetched, setDataFetched] = useState(false);
+  const { ceco } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [dataFetched, setDataFetched] = useState(false);
+  const [localSelected, setLocalSelected] = useState({});
 
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (!dataFetched) {
-            dispatch(fetchLocal(ceco)).then(() => {
-                setDataFetched(true)
-                setLoading(false)
-            })
-        }
+  useEffect(() => {
+    if (!dataFetched) {
+      dispatch(fetchLocal(ceco)).then((local) => {
+        // console.log("[LOCAL SELECTED FETCHED]", local.payload.data[0]);
+        setLocalSelected(local.payload.data[0]);
+        setDataFetched(true);
+        setLoading(false);
+      });
+    }
 
-        return () => { }
-    }, [])
+    return () => {};
+  }, []);
 
-    return (
-        <>
-            <Loader show={loading ? true : false} />
-            <section className='flex'>
-                <NewSidebar />
-                <div className='min-h-screen w-screen'>
-                    {dataFetched ? <Outlet className='' ceco={ceco} /> : null}
-                </div>
-            </section>
-        </>
-    )
+  return (
+    <>
+      <Loader show={loading ? true : false} />
+      <section className="flex flex-col bg-neutral-900">
+        {/* <NewSidebar /> */}
+        <LocalNavbar local={localSelected} />
+        <div className="min-h-screen w-screen pt-14 relative">
+          {dataFetched ? <Outlet className="" ceco={ceco} /> : null}
+        </div>
+      </section>
+    </>
+  );
+};
 
-}
-
-export default LocalLayout
+export default LocalLayout;
 
 /*
         <>

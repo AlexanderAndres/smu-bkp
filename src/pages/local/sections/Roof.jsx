@@ -30,7 +30,7 @@ const Roof = () => {
     }, [])
 
     const handleModal = (img) => {
-        console.log('Image from modal:', img)
+        // console.log('Image from modal:', img)
         setModal(img)
         setShowModal(true)
     }

@@ -40,14 +40,14 @@ export const viewsSlice = createSlice({
                 state.arquitectura = action.payload
             })
             .addCase(fetchLocalFire.fulfilled, (state, action) => {
-                console.log('Fire Payload:', action.payload)
+                // console.log('Fire Payload:', action.payload)
                 state.incendios = action.payload
             })
             .addCase(fetchLocalMantenaince.fulfilled, (state, action) => {
                 state.mantencion = action.payload
             })
             .addCase(downloadMantenaince.fulfilled, (state) => {
-                console.log('Pasó por download')
+                // console.log('Pasó por download')
             })
             .addCase(fetchLocalIluminacion.fulfilled, (state, action) => {
                 state.iluminacion = action.payload
@@ -86,10 +86,10 @@ export const { setMode, setLogin, setViewsLogout, setLoading, setLocals } = view
 export default viewsSlice.reducer
 
 export const fetchLocal = createAsyncThunk('local/getLocal', async (local) => {
-    console.log('Aquí está el fetch')
+    // console.log('Aquí está el fetch')
     const controller = loadAbort
     const response = await axios.get(`https://smu-api.herokuapp.com/api/local/${local}`, { signal: controller.signal }, controller).then((data) => {
-        console.log('From fetch GetLocal', data.data)
+        // console.log('From fetch GetLocal', data.data)
         return data.data
     }).catch((err) => {
         console.log(err)
@@ -98,7 +98,7 @@ export const fetchLocal = createAsyncThunk('local/getLocal', async (local) => {
 })
 export const fetchLocalEvents = createAsyncThunk('local/getLocalEvents', async (local) => {
     const response = await axios.get(`https://smu-api.herokuapp.com/api/alert/${local}`).then((data) => {
-        console.log('From fetchLocal Events', data.data)
+        // console.log('From fetchLocal Events', data.data)
         return data.data
     }).catch((err) => {
         console.log(err)
@@ -118,7 +118,7 @@ export const closeLocalEvents = createAsyncThunk('local/closeEvent', async (data
 })
 
 export const editFoodCooling = createAsyncThunk('foodCooling/edit', async (data) => {
-    console.log('Data in slice:', 'ID:', data.id, 'DATA:', data.info)
+    // console.log('Data in slice:', 'ID:', data.id, 'DATA:', data.info)
     const response = await axios.put(`https://smu-api.herokuapp.com/api/view7/upd/${data.id}`, data.info).then((data) => {
         //console.log('Get close alert', data.data)
         return data.data
